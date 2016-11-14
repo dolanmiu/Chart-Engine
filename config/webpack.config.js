@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-    entry: "./src/helloworld.ts",
+    entry: "./src/index.ts",
     output: {
         filename: "./dist/bundle.js",
     },
@@ -21,8 +21,8 @@ module.exports = {
         ],
 
         loaders: [
-            // All files with a '.ts' extension will be handled by 'ts-loader'.
-            { test: /\.ts$/, loader: "ts-loader" },
+            // All files with a '.ts' extension will be handled by 'awesome-typescript-loader'.
+            { test: /\.ts$/, loader: "awesome-typescript-loader" },
         ],
 
         // Pixi expects people to be using Browserify. We're not, but we still can use
@@ -36,6 +36,8 @@ module.exports = {
         // Don't bundle pixi.js, assume it'll be included in the HTML via a script
         // tag, and made available in the global variable PIXI.
         //{ "pixi.js": "PIXI" }
-    ]
+    ],
+
+    watch: true
 
 };

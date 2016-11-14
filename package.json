@@ -5,8 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prestart": "npm run build",
-    "start": "live-server --open=example",
+    "start": "live-server --open=example --watch=dist",
     "prebuild": "rimraf dist",
     "build": "webpack --config config/webpack.config.js"
   },
@@ -31,6 +30,7 @@
   },
   "devDependencies": {
     "@types/pixi.js": "^3.0.31",
+    "awesome-typescript-loader": "^2.2.4",
     "brfs": "^1.4.3",
     "live-server": "^1.1.0",
     "rimraf": "^2.5.4",
