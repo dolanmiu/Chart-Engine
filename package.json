@@ -5,8 +5,10 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prestart": "tsc --p .",
-    "start": "node ./dist/index.js"
+    "prestart": "npm run build",
+    "start": "live-server --open=example",
+    "prebuild": "rimraf dist",
+    "build": "webpack --config config/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -26,5 +28,16 @@
   "homepage": "https://github.com/dolanmiu/Chart-Engine#readme",
   "dependencies": {
     "pixi.js": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/pixi.js": "^3.0.31",
+    "brfs": "^1.4.3",
+    "live-server": "^1.1.0",
+    "rimraf": "^2.5.4",
+    "source-map-loader": "^0.1.5",
+    "transform-loader": "^0.2.3",
+    "ts-loader": "^1.2.0",
+    "typescript": "^2.0.9",
+    "webpack": "^1.13.3"
   }
 }
