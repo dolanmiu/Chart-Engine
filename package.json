@@ -1,0 +1,30 @@
+{
+  "name": "chart-engine",
+  "version": "1.0.0",
+  "description": "Core engine for creating financial charts",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "tsc --p .",
+    "start": "node ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dolanmiu/Chart-Engine.git"
+  },
+  "keywords": [
+    "chart",
+    "finance",
+    "real",
+    "time"
+  ],
+  "author": "Dolan Miu",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dolanmiu/Chart-Engine/issues"
+  },
+  "homepage": "https://github.com/dolanmiu/Chart-Engine#readme",
+  "dependencies": {
+    "pixi.js": "^4.1.1"
+  }
+}
