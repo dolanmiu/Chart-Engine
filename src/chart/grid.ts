@@ -4,6 +4,14 @@ export class Grid extends PIXI.Graphics {
 
     constructor(private xSpacing: number, private ySpacing: number) {
         super();
+
+        let myMask = new PIXI.Graphics();
+        myMask.beginFill(0x00FF00);
+        myMask.drawCircle(0, 0, 300);
+        myMask.endFill();
+
+        this.addChild(myMask);
+        this.mask = myMask;
     }
 
     public draw(screenWidth: number, screenHeight: number) {
