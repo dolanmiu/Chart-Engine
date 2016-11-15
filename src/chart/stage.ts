@@ -4,24 +4,28 @@ export class StageContainer extends PIXI.Container {
 
     private dragging: boolean;
     private dragEvent: any;
+    private relativeX: number;
+    private relativeY: number;
 
     constructor(renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer) {
         super();
 
         renderer.plugins.interaction
-            .on('mousedown', onDragStart)
-            .on('touchstart', onDragStart)
-            .on('mouseup', onDragEnd)
-            .on('mouseupoutside', onDragEnd)
-            .on('touchend', onDragEnd)
-            .on('touchendoutside', onDragEnd)
-            .on('mousemove', onDragMove)
-            .on('touchmove', onDragMove);
+            .on("mousedown", onDragStart)
+            .on("touchstart", onDragStart)
+            .on("mouseup", onDragEnd)
+            .on("mouseupoutside", onDragEnd)
+            .on("touchend", onDragEnd)
+            .on("touchendoutside", onDragEnd)
+            .on("mousemove", onDragMove)
+            .on("touchmove", onDragMove);
 
         let self = this;
 
         function onDragStart(event: any) {
             self.dragEvent = event.data;
+            self.relativeX = self.dragEvent.originalEvent.clientX - self.position.x;
+            self.relativeY = self.dragEvent.originalEvent.clientY - self.position.y;
             self.dragging = true;
         }
 
@@ -33,9 +37,11 @@ export class StageContainer extends PIXI.Container {
         function onDragMove() {
             if (self.dragging) {
                 console.log(self.dragEvent);
+
+
                 // let newPosition = this.dragEvent.getLocalPosition(this.parent);
-                self.position.x = self.dragEvent.originalEvent.clientX;
-                self.position.y = self.dragEvent.originalEvent.clientY;
+                self.position.x = self.dragEvent.originalEvent.clientX - self.relativeX;
+                self.position.y = self.dragEvent.originalEvent.clientY - self.relativeY;
             }
         }
     }
