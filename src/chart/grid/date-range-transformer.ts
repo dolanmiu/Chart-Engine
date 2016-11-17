@@ -16,7 +16,7 @@ export class DateRangeTransformer {
 
         for (let i = 0; i < totalUnits; i++) {
             arrayOfAxis.push({
-                date: new Date(baseDate.getTime() + timeUnit),
+                date: new Date(baseDate.getTime() + timeUnit * i),
                 x: i
             });
         }
@@ -34,11 +34,11 @@ export class DateRangeTransformer {
                 break;
             case TimeUnit.Minute:
                 baseDate = new Date(startDate);
-                baseDate.setMinutes(0, 0, 0);
+                baseDate.setSeconds(0, 0, );
                 break;
             case TimeUnit.Hour:
                 baseDate = new Date(startDate);
-                baseDate.setHours(0, 0, 0, 0);
+                baseDate.setMinutes(0, 0, 0);
                 break;
             default:
                 console.error("Invalid time");
