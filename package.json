@@ -4,7 +4,8 @@
   "description": "Core engine for creating financial charts",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretest": "rimraf dist && tsc --p .",
+    "test": "mocha ./dist/**/*.spec.js && tslint --project .",
     "start": "live-server --open=example --watch=dist",
     "prebuild": "rimraf dist",
     "build": "webpack --config config/webpack.config.js"
@@ -29,10 +30,14 @@
     "pixi.js": "^4.1.1"
   },
   "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.33",
     "@types/pixi.js": "^3.0.31",
     "awesome-typescript-loader": "^2.2.4",
     "brfs": "^1.4.3",
+    "chai": "^3.5.0",
     "live-server": "^1.1.0",
+    "mocha": "^3.1.2",
     "rimraf": "^2.5.4",
     "source-map-loader": "^0.1.5",
     "transform-loader": "^0.2.3",

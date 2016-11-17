@@ -4,8 +4,10 @@
         "target": "es6",
         "noImplicitAny": true,
         "sourceMap": false,
-        "outDir": "./dist"
-        //"outFile": "./dist/dist.js"
+        "outDir": "./dist",
+        "declaration": true,
+        "declarationDir": "./dist/typings"
+            //"outFile": "./dist/dist.js"
     },
     "exclude": [
         "./node_modules"

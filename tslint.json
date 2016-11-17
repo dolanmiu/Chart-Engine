@@ -61,6 +61,8 @@
         "no-empty": true,
         "no-unreachable": true,
         "no-use-before-declare": true,
-        "no-consecutive-blank-lines": true
+        "no-consecutive-blank-lines": [
+            true
+        ]
     }
 }

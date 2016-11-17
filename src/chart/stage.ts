@@ -38,7 +38,6 @@ export class StageContainer extends PIXI.Container {
             if (self.dragging) {
                 console.log(self.dragEvent);
 
-
                 // let newPosition = this.dragEvent.getLocalPosition(this.parent);
                 self.position.x = self.dragEvent.originalEvent.clientX - self.relativeX;
                 self.position.y = self.dragEvent.originalEvent.clientY - self.relativeY;
