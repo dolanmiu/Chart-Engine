@@ -3,6 +3,7 @@ import { Series } from "../series";
 import { Grid } from "./grid";
 import { ChartMask } from "./chart-mask";
 import { StageContainer } from "./stage";
+import { XAxis } from "./axis";
 
 export class Chart {
     private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
@@ -11,6 +12,7 @@ export class Chart {
     private grid: Grid;
     private stageContainer: PIXI.Container;
     private hudContainer: PIXI.Container;
+    private xAxis: XAxis<Date>;
 
     constructor(private screenWidth: number, private screenHeight: number) {
         this.seriesCollection = new Array<Series>();
@@ -24,6 +26,7 @@ export class Chart {
         this.rootContainer.addChild(this.stageContainer);
 
         this.stageContainer.mask = new ChartMask(this.screenWidth, this.screenHeight);
+        this.xAxis = new XAxis();
     }
 
     init() {
