@@ -1,5 +1,7 @@
 import * as PIXI from "pixi.js";
 
+import { DateRangeTransformer, TimeUnit } from "./date-range-transformer";
+
 export class Grid extends PIXI.Graphics {
     // add matrix (actual grid)
     constructor(private xSpacing: number, private ySpacing: number) {
@@ -26,3 +28,5 @@ export class Grid extends PIXI.Graphics {
         this.endFill();
     }
 }
+
+export { DateRangeTransformer, TimeUnit }

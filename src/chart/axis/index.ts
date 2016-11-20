@@ -26,9 +26,15 @@ export class XAxis<T> extends Axis {
         this.points = points;
     }
 
-    public draw() {
+    public draw(screenHeight: number) {
         this.clear();
         this.lineStyle(1, 0x0000FF, 1);
+
+        this.points.forEach(point => {
+            this.moveTo(point.x, screenHeight);
+            this.lineTo(point.x, screenHeight - 100);
+            console.log(this.width);
+        });
 
         this.endFill();
     }

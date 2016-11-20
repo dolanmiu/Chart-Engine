@@ -45,7 +45,7 @@ export class StageContainer extends PIXI.Container {
         }
     }
 
-    private onDragStart(event: any) {
+    /*private onDragStart(event: any) {
         console.log("dragging");
         this.dragEvent = event;
         this.dragging = true;
@@ -65,5 +65,5 @@ export class StageContainer extends PIXI.Container {
             this.position.x = this.dragEvent.data.originalEvent.clientX;
             this.position.y = this.dragEvent.data.originalEvent.clientY;
         }
-    }
+    }*/
 }

@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Series } from "../series";
-import { Grid } from "./grid";
+import { Grid, DateRangeTransformer, TimeUnit } from "./grid";
 import { ChartMask } from "./chart-mask";
 import { StageContainer } from "./stage";
 import { XAxis } from "./axis";
@@ -13,6 +13,7 @@ export class Chart {
     private stageContainer: PIXI.Container;
     private hudContainer: PIXI.Container;
     private xAxis: XAxis<Date>;
+    private dateRangeTransformer: DateRangeTransformer;
 
     constructor(private screenWidth: number, private screenHeight: number) {
         this.seriesCollection = new Array<Series>();
@@ -26,7 +27,13 @@ export class Chart {
         this.rootContainer.addChild(this.stageContainer);
 
         this.stageContainer.mask = new ChartMask(this.screenWidth, this.screenHeight);
-        this.xAxis = new XAxis();
+        this.xAxis = new XAxis<Date>();
+        this.dateRangeTransformer = new DateRangeTransformer();
+
+        let endDate = new Date(new Date().getTime() + 60 * 60 * 1000);
+        let points = this.dateRangeTransformer.transform(new Date(), endDate, this.screenWidth, TimeUnit.Minute);
+        this.xAxis.Points = points;
+        this.rootContainer.addChild(this.xAxis);
     }
 
     init() {
@@ -46,8 +53,9 @@ export class Chart {
 
     public animate = () => {
         requestAnimationFrame(this.animate);
-        let bunny = this.rootContainer.getChildAt(1);
+        let bunny = this.rootContainer.getChildAt(2);
         bunny.rotation += 0.01;
+        this.xAxis.draw(this.screenHeight);
         this.renderer.render(this.rootContainer);
     };
 
