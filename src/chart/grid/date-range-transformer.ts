@@ -1,29 +1,26 @@
 import { GraphicsUtil } from "../../common/graphics-util";
+import { AxisPoint } from "../axis/axis-point";
+
 export enum TimeUnit {
     Second = 1000, Minute = 1000 * 60, Hour = 1000 * 60 * 60,
-}
-
-export interface DateAxis {
-    x: number;
-    date: Date;
 }
 
 export class DateRangeTransformer {
 
     public transform(startDate: Date, endDate: Date, width: number, timeUnit: TimeUnit) {
-        let arrayOfAxis = new Array<DateAxis>();
+        let arrayOfAxis = new Array<AxisPoint<Date>>();
         let totalMillisecondsInRange = endDate.getTime() - startDate.getTime();
         let totalUnits = Math.floor(Math.abs(totalMillisecondsInRange) / timeUnit);
         let baseDate = this.createBaseDate(startDate, timeUnit);
 
         // start at one, because it counts the first rounded date as a keypoint, which is obviously in the past
-        for (let i = 1; i < totalUnits; i++) {
+        for (let i = 1; i <= totalUnits; i++) {
             let keyDate = new Date(baseDate.getTime() + timeUnit * i);
             let relativeDate = keyDate.getTime() - startDate.getTime();
             let xPos = GraphicsUtil.convertToDrawable((relativeDate / totalMillisecondsInRange) * width);
 
             arrayOfAxis.push({
-                date: keyDate,
+                value: keyDate,
                 x: xPos
             });
         }

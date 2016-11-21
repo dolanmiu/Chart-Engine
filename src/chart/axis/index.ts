@@ -1,41 +1,50 @@
 import * as PIXI from "pixi.js";
-
-export interface AxisPoint {
-    label: string | number;
-    x: number;
-}
-
+import { Point } from "./point";
+import { AxisPoint } from "./axis-point";
+import { IToStringer, StandardToStringer } from "../../common";
 export class Axis extends PIXI.Graphics {
 
 }
 
 export class XAxis<T> extends Axis {
 
-    private points: Array<AxisPoint>;
+    private points: Array<Point>;
+    private toStringer: IToStringer<T>;
 
-    constructor() {
+    constructor(toStringer?: IToStringer<T>) {
         super();
-        this.points = new Array<AxisPoint>();
+        if (!toStringer) {
+            this.toStringer = new StandardToStringer();
+        }
+        this.points = new Array<Point>();
     }
 
-    set Points(points: any) {
+    set Points(points: Array<AxisPoint<T>>) {
         if (!points) {
             return;
         }
+        // this.points = <Array<Point>>points;
 
-        this.points = points;
+        points.forEach(point => {
+            let p = new Point(this.toStringer.stringify(point.value));
+            p.x = point.x;
+            p.y = 400;
+            this.points.push(p);
+            this.addChild(p);
+        });
     }
 
     public draw(screenHeight: number) {
-        this.clear();
-        this.lineStyle(1, 0x0000FF, 1);
+        this.points.forEach(point => {
+            point.draw(screenHeight);
+        });
+        /*this.lineStyle(1, 0x0000FF, 1);
 
         this.points.forEach(point => {
             this.moveTo(point.x, screenHeight);
             this.lineTo(point.x, screenHeight - 100);
-            console.log(this.width);
         });
 
-        this.endFill();
+        this.endFill();*/
     }
 }

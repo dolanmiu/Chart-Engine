@@ -63,6 +63,7 @@
         "no-use-before-declare": true,
         "no-consecutive-blank-lines": [
             true
-        ]
+        ],
+        "eofline": true
     }
 }

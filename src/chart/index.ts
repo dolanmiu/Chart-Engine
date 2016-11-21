@@ -30,9 +30,10 @@ export class Chart {
         this.xAxis = new XAxis<Date>();
         this.dateRangeTransformer = new DateRangeTransformer();
 
-        let endDate = new Date(new Date().getTime() + 60 * 60 * 1000);
+        let endDate = new Date(new Date().getTime() + 10 * 60 * 1000);
         let points = this.dateRangeTransformer.transform(new Date(), endDate, this.screenWidth, TimeUnit.Minute);
         this.xAxis.Points = points;
+        // this.grid.xPoints = 
         this.rootContainer.addChild(this.xAxis);
     }
 
