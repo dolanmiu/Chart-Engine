@@ -9,7 +9,7 @@ export class Chart {
     private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
     private rootContainer: PIXI.Container;
     private seriesCollection: Array<Series>;
-    private grid: Grid;
+    private grid: Grid<Date, number>;
     private stageContainer: PIXI.Container;
     private hudContainer: PIXI.Container;
     private xAxis: XAxis<Date>;
@@ -17,7 +17,7 @@ export class Chart {
 
     constructor(private screenWidth: number, private screenHeight: number) {
         this.seriesCollection = new Array<Series>();
-        this.grid = new Grid(100, 100);
+        this.grid = new Grid<Date, number>(100, 100);
         this.renderer = PIXI.autoDetectRenderer(this.screenWidth, this.screenHeight, { backgroundColor: 0x1099bb, antialias: false });
         this.rootContainer = new PIXI.Container();
         this.stageContainer = new StageContainer(this.renderer);
@@ -33,7 +33,7 @@ export class Chart {
         let endDate = new Date(new Date().getTime() + 10 * 60 * 1000);
         let points = this.dateRangeTransformer.transform(new Date(), endDate, this.screenWidth, TimeUnit.Minute);
         this.xAxis.Points = points;
-        // this.grid.xPoints = 
+        this.grid.xPoints = points;
         this.rootContainer.addChild(this.xAxis);
     }
 
