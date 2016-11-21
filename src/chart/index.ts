@@ -4,7 +4,7 @@ import { Grid, DateRangeTransformer, TimeUnit } from "./grid";
 import { ChartMask } from "./chart-mask";
 import { StageContainer } from "./stage";
 import { XAxis } from "./axis";
-
+import { DateToStringer } from "../common";
 export class Chart {
     private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
     private rootContainer: PIXI.Container;
@@ -27,7 +27,7 @@ export class Chart {
         this.rootContainer.addChild(this.stageContainer);
 
         this.stageContainer.mask = new ChartMask(this.screenWidth, this.screenHeight);
-        this.xAxis = new XAxis<Date>();
+        this.xAxis = new XAxis<Date>(new DateToStringer());
         this.dateRangeTransformer = new DateRangeTransformer();
 
         let endDate = new Date(new Date().getTime() + 10 * 60 * 1000);

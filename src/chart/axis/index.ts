@@ -16,6 +16,7 @@ export class XAxis<T> extends Axis {
         if (!toStringer) {
             this.toStringer = new StandardToStringer();
         }
+        this.toStringer = toStringer;
         this.points = new Array<Point>();
     }
 
