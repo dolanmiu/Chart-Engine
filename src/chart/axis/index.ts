@@ -1,7 +1,8 @@
 import * as PIXI from "pixi.js";
 import { Point } from "./point";
 import { AxisPoint } from "./axis-point";
-import { IToStringer, StandardToStringer } from "../../common";
+import { IToStringer, StandardToStringer, DragHandler } from "../../common";
+
 export class Axis extends PIXI.Graphics {
 
 }
@@ -11,13 +12,14 @@ export class XAxis<T> extends Axis {
     private points: Array<Point>;
     private toStringer: IToStringer<T>;
 
-    constructor(toStringer?: IToStringer<T>) {
+    constructor(private dragHandler: DragHandler, toStringer?: IToStringer<T>) {
         super();
         if (!toStringer) {
             this.toStringer = new StandardToStringer();
         }
         this.toStringer = toStringer;
         this.points = new Array<Point>();
+        dragHandler.enable(this);
     }
 
     set Points(points: Array<AxisPoint<T>>) {

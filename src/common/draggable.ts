@@ -1,16 +1,17 @@
 import * as PIXI from "pixi.js";
 
-export class StageContainer extends PIXI.Container {
+export class DragHandler {
 
     private dragging: boolean;
     private dragEvent: any;
     private relativeX: number;
     private relativeY: number;
 
-    constructor(renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer) {
-        super();
+    constructor(private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer) {
+    }
 
-        renderer.plugins.interaction
+    public enable(obj: PIXI.DisplayObject) {
+        this.renderer.plugins.interaction
             .on("mousedown", onDragStart)
             .on("touchstart", onDragStart)
             .on("mouseup", onDragEnd)
@@ -24,8 +25,8 @@ export class StageContainer extends PIXI.Container {
 
         function onDragStart(event: any) {
             self.dragEvent = event.data;
-            self.relativeX = self.dragEvent.originalEvent.clientX - self.position.x;
-            self.relativeY = self.dragEvent.originalEvent.clientY - self.position.y;
+            self.relativeX = self.dragEvent.originalEvent.clientX - obj.position.x;
+            self.relativeY = self.dragEvent.originalEvent.clientY - obj.position.y;
             self.dragging = true;
         }
 
@@ -39,8 +40,8 @@ export class StageContainer extends PIXI.Container {
                 console.log(self.dragEvent);
 
                 // let newPosition = this.dragEvent.getLocalPosition(this.parent);
-                self.position.x = self.dragEvent.originalEvent.clientX - self.relativeX;
-                self.position.y = self.dragEvent.originalEvent.clientY - self.relativeY;
+                obj.position.x = self.dragEvent.originalEvent.clientX - self.relativeX;
+                obj.position.y = self.dragEvent.originalEvent.clientY - self.relativeY;
             }
         }
     }
