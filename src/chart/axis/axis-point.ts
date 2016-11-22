@@ -1,13 +1,17 @@
 import { GraphicsUtil } from "../../common/graphics-util";
 
 export class AxisPoint<T> {
-    private _pos: number;
+    private pos: number;
 
     constructor(private value: T, pos: number) {
-        this._pos = GraphicsUtil.convertToDrawable(pos);
+        this.pos = GraphicsUtil.convertToDrawable(pos);
     }
 
-    get pos() {
-        return this._pos;
+    get Pos() {
+        return this.pos;
+    }
+
+    get Value() {
+        return this.value;
     }
 }

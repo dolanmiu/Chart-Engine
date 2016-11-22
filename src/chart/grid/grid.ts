@@ -22,13 +22,13 @@ export class Grid<T, V> extends PIXI.Graphics {
         this.lineStyle(1, 0x0000FF, 1);
 
         this.points.x.forEach(point => {
-            this.moveTo(point.pos, 0);
-            this.lineTo(point.pos, screenHeight);
+            this.moveTo(point.Pos, 0);
+            this.lineTo(point.Pos, screenHeight);
         });
 
         this.points.y.forEach(point => {
-            this.moveTo(0, point.pos);
-            this.lineTo(screenWidth, point.pos);
+            this.moveTo(0, point.Pos);
+            this.lineTo(screenWidth, point.Pos);
         });
 
         this.endFill();

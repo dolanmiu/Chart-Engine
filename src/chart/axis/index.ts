@@ -27,8 +27,8 @@ export class XAxis<T> extends Axis {
         // this.points = <Array<Point>>points;
 
         points.forEach(point => {
-            let p = new Point(this.toStringer.stringify(point.value));
-            p.x = point.pos;
+            let p = new Point(this.toStringer.stringify(point.Value));
+            p.x = point.Pos;
             p.y = 400;
             this.points.push(p);
             this.addChild(p);
