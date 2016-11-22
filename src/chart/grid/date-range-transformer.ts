@@ -1,4 +1,3 @@
-import { GraphicsUtil } from "../../common/graphics-util";
 import { AxisPoint } from "../axis/axis-point";
 
 export enum TimeUnit {
@@ -17,12 +16,9 @@ export class DateRangeTransformer {
         for (let i = 1; i <= totalUnits; i++) {
             let keyDate = new Date(baseDate.getTime() + timeUnit * i);
             let relativeDate = keyDate.getTime() - startDate.getTime();
-            let xPos = GraphicsUtil.convertToDrawable((relativeDate / totalMillisecondsInRange) * width);
+            let xPos = (relativeDate / totalMillisecondsInRange) * width;
 
-            arrayOfAxis.push({
-                value: keyDate,
-                x: xPos
-            });
+            arrayOfAxis.push(new AxisPoint(keyDate, xPos));
         }
 
         return arrayOfAxis;
