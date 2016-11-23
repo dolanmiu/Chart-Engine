@@ -1,5 +1,9 @@
 import * as PIXI from "pixi.js";
 
+export enum DragType {
+    OnlyX, OnlyY, XAndY
+}
+
 export class DragHandler {
 
     private dragging: boolean;
@@ -10,7 +14,7 @@ export class DragHandler {
     constructor(private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer) {
     }
 
-    public enable(obj: PIXI.DisplayObject) {
+    public enable(obj: PIXI.DisplayObject, dragType: DragType) {
         this.renderer.plugins.interaction
             .on("mousedown", onDragStart)
             .on("touchstart", onDragStart)
@@ -40,8 +44,13 @@ export class DragHandler {
                 console.log(self.dragEvent);
 
                 // let newPosition = this.dragEvent.getLocalPosition(this.parent);
-                obj.position.x = self.dragEvent.originalEvent.clientX - self.relativeX;
-                obj.position.y = self.dragEvent.originalEvent.clientY - self.relativeY;
+                if (dragType === DragType.OnlyX || dragType === DragType.XAndY) {
+                    obj.position.x = self.dragEvent.originalEvent.clientX - self.relativeX;
+                }
+
+                if (dragType === DragType.OnlyY || dragType === DragType.XAndY) {
+                    obj.position.y = self.dragEvent.originalEvent.clientY - self.relativeY;
+                }
             }
         }
     }

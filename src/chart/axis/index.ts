@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Point } from "./point";
 import { AxisPoint } from "./axis-point";
-import { IToStringer, StandardToStringer, DragHandler } from "../../common";
+import { IToStringer, StandardToStringer, DragHandler, DragType } from "../../common";
 
 export class Axis extends PIXI.Graphics {
 
@@ -19,7 +19,7 @@ export class XAxis<T> extends Axis {
         }
         this.toStringer = toStringer;
         this.points = new Array<Point>();
-        dragHandler.enable(this);
+        dragHandler.enable(this, DragType.OnlyX);
     }
 
     set Points(points: Array<AxisPoint<T>>) {

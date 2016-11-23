@@ -2,7 +2,6 @@ import * as PIXI from "pixi.js";
 import { Series } from "../series";
 import { Grid, DateRangeTransformer, TimeUnit } from "./grid";
 import { ChartMask } from "./chart-mask";
-import { StageContainer } from "./stage";
 import { XAxis } from "./axis";
 import { DateToStringer, DragHandler } from "../common";
 
@@ -21,7 +20,7 @@ export class Chart {
         this.grid = new Grid<Date, number>(100, 100);
         this.renderer = PIXI.autoDetectRenderer(this.screenWidth, this.screenHeight, { backgroundColor: 0x1099bb, antialias: false });
         this.rootContainer = new PIXI.Container();
-        this.stageContainer = new StageContainer(this.renderer);
+        this.stageContainer = new PIXI.Container();
 
         this.hudContainer = new PIXI.Container();
         this.stageContainer.addChild(this.grid);
