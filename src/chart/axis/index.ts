@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Point } from "./point";
 import { AxisPoint } from "./axis-point";
-import { IToStringer, StandardToStringer, DragHandler, DragType } from "../../common";
+import { IToStringer, StandardToStringer } from "../../common";
 
 export class Axis extends PIXI.Graphics {
 
@@ -11,22 +11,28 @@ export class XAxis<T> extends Axis {
 
     private points: Array<Point>;
     private toStringer: IToStringer<T>;
+    private startValue: T;
+    private endValue: T;
 
-    constructor(private dragHandler: DragHandler, toStringer?: IToStringer<T>) {
+    constructor(toStringer?: IToStringer<T>) {
         super();
         if (!toStringer) {
             this.toStringer = new StandardToStringer();
         }
         this.toStringer = toStringer;
         this.points = new Array<Point>();
-        dragHandler.enable(this, DragType.OnlyX);
     }
 
-    set Points(points: Array<AxisPoint<T>>) {
-        if (!points) {
+    setPoints(points: Array<AxisPoint<T>>, startValue: T, endValue: T) {
+        if (!points || points.length === 0) {
             return;
         }
         // this.points = <Array<Point>>points;
+        this.startValue = startValue;
+        this.endValue = endValue;
+
+        this.removeChildren();
+        this.points = [];
 
         points.forEach(point => {
             let p = new Point(this.toStringer.stringify(point.Value));
@@ -37,7 +43,17 @@ export class XAxis<T> extends Axis {
         });
     }
 
+    get StartValue(): T {
+        return this.startValue;
+    }
+
+    get EndValue(): T {
+        return this.endValue;
+    }
+
     public draw(screenHeight: number) {
+        this.clear();
+
         this.points.forEach(point => {
             point.draw(screenHeight);
         });

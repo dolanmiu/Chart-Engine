@@ -27,14 +27,23 @@ export class Chart {
         this.rootContainer.addChild(this.stageContainer);
 
         this.stageContainer.mask = new ChartMask(this.screenWidth, this.screenHeight);
-        this.xAxis = new XAxis<Date>(new DragHandler(this.renderer), new DateToStringer());
+        let dragHandler = new DragHandler(this.renderer);
+        this.xAxis = new XAxis<Date>(new DateToStringer());
         this.dateRangeTransformer = new DateRangeTransformer();
 
         let endDate = new Date(new Date().getTime() + 10 * 60 * 1000);
-        let points = this.dateRangeTransformer.transform(new Date(), endDate, this.screenWidth, TimeUnit.Minute);
-        this.xAxis.Points = points;
+        let startDate = new Date();
+        let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
+        this.xAxis.setPoints(points, startDate, endDate);
         this.grid.xPoints = points;
         this.rootContainer.addChild(this.xAxis);
+        dragHandler.enable((x, y) => {
+            let startDate = new Date(this.xAxis.StartValue.getTime() - x * 500);
+            let endDate = new Date(this.xAxis.EndValue.getTime() - x * 500);
+            //console.log(startDate);
+            let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
+            this.xAxis.setPoints(points, startDate, endDate);
+        });
     }
 
     init() {

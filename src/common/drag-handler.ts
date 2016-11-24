@@ -14,7 +14,7 @@ export class DragHandler {
     constructor(private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer) {
     }
 
-    public enable(obj: PIXI.DisplayObject, dragType: DragType) {
+    public enable(tick: (x: number, y: number) => void) {
         this.renderer.plugins.interaction
             .on("mousedown", onDragStart)
             .on("touchstart", onDragStart)
@@ -29,8 +29,8 @@ export class DragHandler {
 
         function onDragStart(event: any) {
             self.dragEvent = event.data;
-            self.relativeX = self.dragEvent.originalEvent.clientX - obj.position.x;
-            self.relativeY = self.dragEvent.originalEvent.clientY - obj.position.y;
+            self.relativeX = self.dragEvent.originalEvent.clientX;
+            self.relativeY = self.dragEvent.originalEvent.clientY;
             self.dragging = true;
         }
 
@@ -39,18 +39,13 @@ export class DragHandler {
             self.dragEvent = null;
         }
 
-        function onDragMove() {
+        function onDragMove(event: any) {
             if (self.dragging) {
-                console.log(self.dragEvent);
-
-                // let newPosition = this.dragEvent.getLocalPosition(this.parent);
-                if (dragType === DragType.OnlyX || dragType === DragType.XAndY) {
-                    obj.position.x = self.dragEvent.originalEvent.clientX - self.relativeX;
-                }
-
-                if (dragType === DragType.OnlyY || dragType === DragType.XAndY) {
-                    obj.position.y = self.dragEvent.originalEvent.clientY - self.relativeY;
-                }
+                let x = self.dragEvent.originalEvent.clientX - self.relativeX;
+                let y = self.dragEvent.originalEvent.clientY - self.relativeY;
+                tick(x, y);
+                self.relativeX = self.dragEvent.originalEvent.clientX;
+                self.relativeY = self.dragEvent.originalEvent.clientY;
             }
         }
     }
