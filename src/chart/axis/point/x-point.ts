@@ -1,17 +1,10 @@
-import * as PIXI from "pixi.js";
+import { Point } from "./point";
 
-export class Point extends PIXI.Graphics {
-
-    private text: PIXI.Text;
+export class XPoint extends Point {
 
     constructor(wording: string) {
-        super();
-        this.text = new PIXI.Text(wording, {
-            fill: "white",
-            fontSize: 8,
-        });
+        super(wording);
         this.text.anchor.x = 0.5;
-        this.addChild(this.text);
     }
 
     public draw(screenHeight: number) {
