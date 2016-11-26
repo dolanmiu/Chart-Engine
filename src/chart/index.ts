@@ -1,9 +1,10 @@
 import * as PIXI from "pixi.js";
 import { Series } from "../series";
-import { Grid, DateRangeTransformer, TimeUnit } from "./grid";
+import { Grid } from "./grid";
+import { DateRangeTransformer, TimeUnit, FloatTransformer, NumberUnit } from "./transformers";
 import { ChartMask } from "./chart-mask";
 import { XAxis, YAxis } from "./axis";
-import { DateToStringer, DragHandler } from "../common";
+import { DateToStringer, DragHandler, StandardToStringer } from "../common";
 
 export class Chart {
     private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
@@ -13,8 +14,9 @@ export class Chart {
     private stageContainer: PIXI.Container;
     private hudContainer: PIXI.Container;
     private xAxis: XAxis<Date>;
-    private yAxis: YAxis<Date>;
+    private yAxis: YAxis<number>;
     private dateRangeTransformer: DateRangeTransformer;
+    private floatTransformer: FloatTransformer;
 
     constructor(private screenWidth: number, private screenHeight: number) {
         this.seriesCollection = new Array<Series>();
@@ -30,15 +32,19 @@ export class Chart {
         this.stageContainer.mask = new ChartMask(this.screenWidth, this.screenHeight);
         let dragHandler = new DragHandler(this.renderer);
         this.xAxis = new XAxis<Date>(new DateToStringer());
-        this.yAxis = new YAxis<Date>(new DateToStringer());
+        this.yAxis = new YAxis<number>(new StandardToStringer());
         this.dateRangeTransformer = new DateRangeTransformer();
+        this.floatTransformer = new FloatTransformer();
 
         let endDate = new Date(new Date().getTime() + 10 * 60 * 1000);
         let startDate = new Date();
         let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
+        let floats = this.floatTransformer.transform(0, 20, this.screenWidth, NumberUnit.Ones);
+        console.log(floats);
         this.xAxis.setPoints(points, startDate, endDate);
-        this.yAxis.setPoints(points, startDate, endDate);
+        this.yAxis.setPoints(floats, 0, 20);
         this.grid.xPoints = points;
+        
         this.rootContainer.addChild(this.xAxis);
         this.rootContainer.addChild(this.yAxis);
         dragHandler.enable((x, y) => {
@@ -48,8 +54,13 @@ export class Chart {
             let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
             this.xAxis.setPoints(points, startDate, endDate);
 
-            let numbers = this.dateRangeTransformer.transform(startDate, endDate, this.screenHeight, TimeUnit.Minute);
-            this.yAxis.setPoints(numbers, startDate, endDate);
+            let startNumber = this.yAxis.StartValue - y * 0.03;
+            let endNumber = this.yAxis.EndValue - y * 0.03;
+            console.log(startNumber);
+            console.log(endNumber);
+            let numbers = this.floatTransformer.transform(startNumber, endNumber, this.screenHeight, NumberUnit.Ones);
+            console.log(numbers);
+            this.yAxis.setPoints(numbers, startNumber, endNumber);
 
         });
     }

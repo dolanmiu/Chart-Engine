@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 
-import { AxisPoint } from "../axis/axis-point";
+import { AxisPoint } from "../axis";
 
 export class Grid<T, V> extends PIXI.Graphics {
 

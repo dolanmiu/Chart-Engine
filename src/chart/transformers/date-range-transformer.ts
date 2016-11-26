@@ -1,10 +1,11 @@
-import { AxisPoint } from "../axis/axis-point";
+import { AxisPoint } from "../axis";
+import { ITransformer } from "./transformer";
 
 export enum TimeUnit {
     Second = 1000, Minute = 1000 * 60, Hour = 1000 * 60 * 60,
 }
 
-export class DateRangeTransformer {
+export class DateRangeTransformer implements ITransformer<Date> {
 
     public transform(startDate: Date, endDate: Date, width: number, timeUnit: TimeUnit) {
         let arrayOfAxis = new Array<AxisPoint<Date>>();
