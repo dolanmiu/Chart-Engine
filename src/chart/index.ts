@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { Series } from "../series";
 import { Grid, DateRangeTransformer, TimeUnit } from "./grid";
 import { ChartMask } from "./chart-mask";
-import { XAxis } from "./axis";
+import { XAxis, YAxis } from "./axis";
 import { DateToStringer, DragHandler } from "../common";
 
 export class Chart {
@@ -13,6 +13,7 @@ export class Chart {
     private stageContainer: PIXI.Container;
     private hudContainer: PIXI.Container;
     private xAxis: XAxis<Date>;
+    private yAxis: YAxis<Date>;
     private dateRangeTransformer: DateRangeTransformer;
 
     constructor(private screenWidth: number, private screenHeight: number) {
@@ -29,20 +30,27 @@ export class Chart {
         this.stageContainer.mask = new ChartMask(this.screenWidth, this.screenHeight);
         let dragHandler = new DragHandler(this.renderer);
         this.xAxis = new XAxis<Date>(new DateToStringer());
+        this.yAxis = new YAxis<Date>(new DateToStringer());
         this.dateRangeTransformer = new DateRangeTransformer();
 
         let endDate = new Date(new Date().getTime() + 10 * 60 * 1000);
         let startDate = new Date();
         let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
         this.xAxis.setPoints(points, startDate, endDate);
+        this.yAxis.setPoints(points, startDate, endDate);
         this.grid.xPoints = points;
         this.rootContainer.addChild(this.xAxis);
+        this.rootContainer.addChild(this.yAxis);
         dragHandler.enable((x, y) => {
             let startDate = new Date(this.xAxis.StartValue.getTime() - x * 500);
             let endDate = new Date(this.xAxis.EndValue.getTime() - x * 500);
-            //console.log(startDate);
+            // console.log(startDate);
             let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
             this.xAxis.setPoints(points, startDate, endDate);
+
+            let numbers = this.dateRangeTransformer.transform(startDate, endDate, this.screenHeight, TimeUnit.Minute);
+            this.yAxis.setPoints(numbers, startDate, endDate);
+
         });
     }
 
@@ -63,9 +71,10 @@ export class Chart {
 
     public animate = () => {
         requestAnimationFrame(this.animate);
-        let bunny = this.rootContainer.getChildAt(2);
+        let bunny = this.rootContainer.getChildAt(3);
         bunny.rotation += 0.01;
         this.xAxis.draw(this.screenHeight);
+        this.yAxis.draw(this.screenWidth);
         this.renderer.render(this.rootContainer);
     };
 
