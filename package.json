@@ -27,7 +27,8 @@
   },
   "homepage": "https://github.com/dolanmiu/Chart-Engine#readme",
   "dependencies": {
-    "pixi.js": "^4.1.1"
+    "pixi.js": "^4.1.1",
+    "reflect-metadata": "^0.1.8"
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
