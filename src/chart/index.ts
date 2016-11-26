@@ -44,46 +44,31 @@ export class Chart {
         this.xAxis.setPoints(points, startDate, endDate);
         this.yAxis.setPoints(floats, 0, 20);
         this.grid.xPoints = points;
-        
+
         this.rootContainer.addChild(this.xAxis);
         this.rootContainer.addChild(this.yAxis);
         dragHandler.enable((x, y) => {
             let startDate = new Date(this.xAxis.StartValue.getTime() - x * 500);
             let endDate = new Date(this.xAxis.EndValue.getTime() - x * 500);
-            // console.log(startDate);
+
             let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
             this.xAxis.setPoints(points, startDate, endDate);
 
             let startNumber = this.yAxis.StartValue - y * 0.03;
             let endNumber = this.yAxis.EndValue - y * 0.03;
-            console.log(startNumber);
-            console.log(endNumber);
-            let numbers = this.floatTransformer.transform(startNumber, endNumber, this.screenHeight, NumberUnit.Ones);
-            console.log(numbers);
-            this.yAxis.setPoints(numbers, startNumber, endNumber);
 
+            let numbers = this.floatTransformer.transform(startNumber, endNumber, this.screenHeight, NumberUnit.Ones);
+            this.yAxis.setPoints(numbers, startNumber, endNumber);
         });
     }
 
     init() {
         document.body.appendChild(this.renderer.view);
-
-        let texture = PIXI.Texture.fromImage("../src/assets/bunny.png");
-        let bunny = new PIXI.Sprite(texture);
-        bunny.anchor.x = 0.5;
-        bunny.anchor.y = 0.5;
-        bunny.position.x = 400;
-        bunny.position.y = 300;
-        bunny.scale.x = 2;
-        bunny.scale.y = 2;
-        this.rootContainer.addChild(bunny);
         this.grid.draw(this.screenWidth, this.screenHeight);
     }
 
     public animate = () => {
         requestAnimationFrame(this.animate);
-        let bunny = this.rootContainer.getChildAt(3);
-        bunny.rotation += 0.01;
         this.xAxis.draw(this.screenHeight);
         this.yAxis.draw(this.screenWidth);
         this.renderer.render(this.rootContainer);
@@ -91,6 +76,10 @@ export class Chart {
 
     public addSeries(series: Series) {
         this.seriesCollection.push(series);
+    }
+
+    get Renderer() {
+        return this.renderer;
     }
 
 }
