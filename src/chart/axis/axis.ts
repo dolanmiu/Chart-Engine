@@ -5,7 +5,6 @@ import { IToStringer, StandardToStringer } from "../../common";
 
 export abstract class Axis<T> extends PIXI.Graphics {
 
-    protected points: Array<Point>;
     protected toStringer: IToStringer<T>;
     protected startValue: T;
     protected endValue: T;
@@ -16,7 +15,6 @@ export abstract class Axis<T> extends PIXI.Graphics {
             this.toStringer = new StandardToStringer();
         }
         this.toStringer = toStringer;
-        this.points = new Array<Point>();
     }
 
     get StartValue(): T {
@@ -30,9 +28,10 @@ export abstract class Axis<T> extends PIXI.Graphics {
     public draw(screenHeight: number) {
         this.clear();
 
-        this.points.forEach(point => {
+        for (let child of this.children) {
+            let point = <Point>child;
             point.draw(screenHeight);
-        });
+        };
     }
 
     abstract setPoints(points: Array<AxisPoint<T>>, startValue: T, endValue: T): void;

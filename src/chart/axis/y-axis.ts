@@ -13,13 +13,15 @@ export class YAxis<T> extends Axis<T> {
         this.endValue = endValue;
 
         this.removeChildren();
-        this.points = [];
+
+        for (let child of this.children) {
+            child.destroy();
+        }
 
         points.forEach(point => {
             let p = new YPoint(this.toStringer.stringify(point.Value));
             p.x = 400;
             p.y = point.Pos;
-            this.points.push(p);
             this.addChild(p);
         });
     }
