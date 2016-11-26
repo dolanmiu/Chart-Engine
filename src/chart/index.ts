@@ -62,16 +62,12 @@ export class Chart extends PIXI.Container {
         });
     }
 
-    init() {
-        document.body.appendChild(this.renderer.view);
-        this.grid.draw(this.screenWidth, this.screenHeight);
-    }
-
     public animate = () => {
         requestAnimationFrame(this.animate);
         this.xAxis.draw(this.screenHeight);
         this.yAxis.draw(this.screenWidth);
         this.renderer.render(this);
+        this.grid.draw(this.screenWidth, this.screenHeight);
     };
 
     public addSeries(series: Series) {
