@@ -6,9 +6,8 @@ import { ChartMask } from "./chart-mask";
 import { XAxis, YAxis } from "./axis";
 import { DateToStringer, DragHandler, StandardToStringer } from "../common";
 
-export class Chart {
+export class Chart extends PIXI.Container {
     private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
-    private rootContainer: PIXI.Container;
     private seriesCollection: Array<Series>;
     private grid: Grid<Date, number>;
     private stageContainer: PIXI.Container;
@@ -19,15 +18,16 @@ export class Chart {
     private floatTransformer: FloatTransformer;
 
     constructor(private screenWidth: number, private screenHeight: number) {
+        super();
+
         this.seriesCollection = new Array<Series>();
         this.grid = new Grid<Date, number>(100, 100);
         this.renderer = PIXI.autoDetectRenderer(this.screenWidth, this.screenHeight, { backgroundColor: 0x1099bb, antialias: false });
-        this.rootContainer = new PIXI.Container();
         this.stageContainer = new PIXI.Container();
 
         this.hudContainer = new PIXI.Container();
         this.stageContainer.addChild(this.grid);
-        this.rootContainer.addChild(this.stageContainer);
+        this.addChild(this.stageContainer);
 
         this.stageContainer.mask = new ChartMask(this.screenWidth, this.screenHeight);
         let dragHandler = new DragHandler(this.renderer);
@@ -45,8 +45,8 @@ export class Chart {
         this.yAxis.setPoints(floats, 0, 20);
         this.grid.xPoints = points;
 
-        this.rootContainer.addChild(this.xAxis);
-        this.rootContainer.addChild(this.yAxis);
+        this.addChild(this.xAxis);
+        this.addChild(this.yAxis);
         dragHandler.enable((x, y) => {
             let startDate = new Date(this.xAxis.StartValue.getTime() - x * 500);
             let endDate = new Date(this.xAxis.EndValue.getTime() - x * 500);
@@ -71,7 +71,7 @@ export class Chart {
         requestAnimationFrame(this.animate);
         this.xAxis.draw(this.screenHeight);
         this.yAxis.draw(this.screenWidth);
-        this.renderer.render(this.rootContainer);
+        this.renderer.render(this);
     };
 
     public addSeries(series: Series) {
