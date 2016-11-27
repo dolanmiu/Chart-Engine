@@ -21,20 +21,21 @@ export class Grid<T, V> extends PIXI.Graphics {
         this.clear();
         this.lineStyle(1, 0x0000FF, 1);
 
-        this.points.x.forEach(point => {
+        for (let point of this.points.x) {
             this.moveTo(point.Pos, 0);
             this.lineTo(point.Pos, screenHeight);
-        });
+        };
 
-        this.points.y.forEach(point => {
+        for (let point of this.points.y) {
             this.moveTo(0, point.Pos);
             this.lineTo(screenWidth, point.Pos);
-        });
+        };
 
         this.endFill();
     }
 
-    set xPoints(value: Array<AxisPoint<T>>) {
-        this.points.x = value;
+    setPoints(xPoints: Array<AxisPoint<T>>, yPoints: Array<AxisPoint<V>>) {
+        this.points.x = xPoints;
+        this.points.y = yPoints;
     }
 }

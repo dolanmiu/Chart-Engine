@@ -20,7 +20,6 @@ export class YAxis<T> extends Axis<T> {
 
         points.forEach(point => {
             let p = new YPoint(this.toStringer.stringify(point.Value));
-            p.x = 400;
             p.y = point.Pos;
             this.addChild(p);
         });

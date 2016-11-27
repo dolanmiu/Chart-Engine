@@ -12,7 +12,6 @@ export class FloatTransformer implements ITransformer<number> {
         let totalRange = endNumber - startNumber;
         let totalUnits = Math.floor(Math.abs(totalRange) / unit);
         let baseNumber = this.createBaseNumber(startNumber, unit);
-        console.log(baseNumber);
 
         // start at one, because it counts the first rounded date as a keypoint, which is obviously in the past
         for (let i = 1; i <= totalUnits; i++) {

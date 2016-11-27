@@ -11,7 +11,6 @@ export class Chart extends PIXI.Container {
     private seriesCollection: Array<Series>;
     private grid: Grid<Date, number>;
     private stageContainer: PIXI.Container;
-    private hudContainer: PIXI.Container;
     private xAxis: XAxis<Date>;
     private yAxis: YAxis<number>;
     private dateRangeTransformer: DateRangeTransformer;
@@ -25,12 +24,10 @@ export class Chart extends PIXI.Container {
         this.renderer = PIXI.autoDetectRenderer(this.screenWidth, this.screenHeight, { backgroundColor: 0x1099bb, antialias: false });
         this.stageContainer = new PIXI.Container();
 
-        this.hudContainer = new PIXI.Container();
         this.stageContainer.addChild(this.grid);
         this.addChild(this.stageContainer);
 
         this.stageContainer.mask = new ChartMask(this.screenWidth, this.screenHeight);
-        let dragHandler = new DragHandler(this.renderer);
         this.xAxis = new XAxis<Date>(new DateToStringer());
         this.yAxis = new YAxis<number>(new StandardToStringer());
         this.dateRangeTransformer = new DateRangeTransformer();
@@ -38,36 +35,38 @@ export class Chart extends PIXI.Container {
 
         let endDate = new Date(new Date().getTime() + 10 * 60 * 1000);
         let startDate = new Date();
-        let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
-        let floats = this.floatTransformer.transform(0, 20, this.screenWidth, NumberUnit.Ones);
-        console.log(floats);
-        this.xAxis.setPoints(points, startDate, endDate);
-        this.yAxis.setPoints(floats, 0, 20);
-        this.grid.xPoints = points;
+        this.updatePoints(startDate, endDate, 0, 20);
 
         this.addChild(this.xAxis);
         this.addChild(this.yAxis);
+
+        let dragHandler = new DragHandler(this.renderer);
         dragHandler.enable((x, y) => {
             let startDate = new Date(this.xAxis.StartValue.getTime() - x * 500);
             let endDate = new Date(this.xAxis.EndValue.getTime() - x * 500);
-
-            let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
-            this.xAxis.setPoints(points, startDate, endDate);
-
             let startNumber = this.yAxis.StartValue - y * 0.03;
             let endNumber = this.yAxis.EndValue - y * 0.03;
 
-            let numbers = this.floatTransformer.transform(startNumber, endNumber, this.screenHeight, NumberUnit.Ones);
-            this.yAxis.setPoints(numbers, startNumber, endNumber);
+            this.updatePoints(startDate, endDate, startNumber, endNumber);
         });
+    }
+
+    private updatePoints(startDate: Date, endDate: Date, startNumber: number, endNumber: number) {
+        let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
+        this.xAxis.setPoints(points, startDate, endDate);
+
+        let numbers = this.floatTransformer.transform(startNumber, endNumber, this.screenHeight, NumberUnit.Ones);
+        this.yAxis.setPoints(numbers, startNumber, endNumber);
+
+        this.grid.setPoints(points, numbers);
     }
 
     public animate = () => {
         requestAnimationFrame(this.animate);
         this.xAxis.draw(this.screenHeight);
         this.yAxis.draw(this.screenWidth);
-        this.renderer.render(this);
         this.grid.draw(this.screenWidth, this.screenHeight);
+        this.renderer.render(this);
     };
 
     public addSeries(series: Series) {
@@ -77,5 +76,4 @@ export class Chart extends PIXI.Container {
     get Renderer() {
         return this.renderer;
     }
-
 }
