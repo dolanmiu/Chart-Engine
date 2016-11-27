@@ -73,6 +73,14 @@ export class Chart extends PIXI.Container {
         this.seriesCollection.push(series);
     }
 
+    public zoom(zoomAmount: number) {
+        let startDate = new Date(this.xAxis.StartValue.getTime() - zoomAmount);
+        let endDate = new Date(this.xAxis.EndValue.getTime() + zoomAmount);
+        let startNumber = this.yAxis.StartValue;
+        let endNumber = this.yAxis.EndValue;
+        this.updatePoints(startDate, endDate, startNumber, endNumber);
+    }
+
     get Renderer() {
         return this.renderer;
     }

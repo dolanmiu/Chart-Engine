@@ -4,7 +4,7 @@ export class YPoint extends Point {
 
     constructor(wording: string) {
         super(wording);
-        this.text.anchor.y = 0.5;
+        //this.text.anchor.y = 0.5;
     }
 
     public draw(screenHeight: number) {

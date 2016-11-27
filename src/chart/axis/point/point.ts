@@ -17,7 +17,7 @@ export abstract class Point extends PIXI.Graphics {
 
     destroy() {
         super.destroy();
-        this.removeChildren();
         this.text.destroy();
+        this.removeChildren();
     }
 }

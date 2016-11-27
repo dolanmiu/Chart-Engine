@@ -12,11 +12,10 @@ export class XAxis<T> extends Axis<T> {
         this.startValue = startValue;
         this.endValue = endValue;
 
-        this.removeChildren();
-
         for (let child of this.children) {
             child.destroy();
         }
+        this.removeChildren();
 
         points.forEach(point => {
             let p = new XPoint(this.toStringer.stringify(point.Value));
