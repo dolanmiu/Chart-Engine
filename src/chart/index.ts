@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { Series } from "../series";
+import { ISeries } from "../series";
 import { Grid } from "./grid";
 import { DateRangeTransformer, TimeUnit, FloatTransformer, NumberUnit } from "./transformers";
 import { ChartMask } from "./chart-mask";
@@ -8,7 +8,7 @@ import { DateToStringer, DragHandler, StandardToStringer } from "../common";
 
 export class Chart extends PIXI.Container {
     private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
-    private seriesCollection: Array<Series>;
+    private seriesCollection: Array<ISeries>;
     private grid: Grid<Date, number>;
     private stageContainer: PIXI.Container;
     private xAxis: XAxis<Date>;
@@ -19,7 +19,7 @@ export class Chart extends PIXI.Container {
     constructor(private screenWidth: number, private screenHeight: number) {
         super();
 
-        this.seriesCollection = new Array<Series>();
+        this.seriesCollection = new Array<ISeries>();
         this.grid = new Grid<Date, number>(100, 100);
         this.renderer = PIXI.autoDetectRenderer(this.screenWidth, this.screenHeight, { backgroundColor: 0x1099bb, antialias: false });
         this.stageContainer = new PIXI.Container();
@@ -69,7 +69,7 @@ export class Chart extends PIXI.Container {
         this.renderer.render(this);
     };
 
-    public addSeries(series: Series) {
+    public addSeries(series: ISeries) {
         this.seriesCollection.push(series);
     }
 
