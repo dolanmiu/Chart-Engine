@@ -49,6 +49,10 @@ export class Chart extends PIXI.Container {
 
             this.updatePoints(startDate, endDate, startNumber, endNumber);
         });
+
+        document.addEventListener("mousewheel", event => {
+            this.zoom(event.deltaY * 10);
+        }, false);
     }
 
     private updatePoints(startDate: Date, endDate: Date, startNumber: number, endNumber: number) {
