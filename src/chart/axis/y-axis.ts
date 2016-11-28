@@ -1,10 +1,11 @@
 import { Axis } from "./axis";
 import { AxisPoint } from "./axis-point";
 import { YPoint } from "./point/y-point";
+import { GraphicsUtil } from "../../common/graphics-util";
 
 export class YAxis<T> extends Axis<T> {
 
-    setPoints(points: Array<AxisPoint<T>>, startValue: T, endValue: T) {
+    setPoints(points: Array<AxisPoint<T>>, startValue: T, endValue: T, length: number) {
         if (!points || points.length === 0) {
             return;
         }
@@ -19,7 +20,7 @@ export class YAxis<T> extends Axis<T> {
 
         points.forEach(point => {
             let p = new YPoint(this.toStringer.stringify(point.Value));
-            p.y = point.Pos;
+            p.y = GraphicsUtil.convertToDrawable(point.PosRatio * length);
             this.addChild(p);
         });
     }

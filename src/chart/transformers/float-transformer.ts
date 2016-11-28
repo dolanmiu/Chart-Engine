@@ -7,7 +7,7 @@ export enum NumberUnit {
 
 export class FloatTransformer implements ITransformer<number> {
 
-    public transform(startNumber: number, endNumber: number, width: number, unit: NumberUnit) {
+    public transform(startNumber: number, endNumber: number, unit: NumberUnit) {
         let arrayOfAxis = new Array<AxisPoint<number>>();
         let totalRange = endNumber - startNumber;
         let totalUnits = Math.floor(Math.abs(totalRange) / unit);
@@ -17,7 +17,7 @@ export class FloatTransformer implements ITransformer<number> {
         for (let i = 1; i <= totalUnits; i++) {
             let keyDate = baseNumber + unit * i;
             let relativeDate = keyDate - startNumber;
-            let xPos = (relativeDate / totalRange) * width;
+            let xPos = (relativeDate / totalRange);
 
             arrayOfAxis.push(new AxisPoint(keyDate, xPos));
         }

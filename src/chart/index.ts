@@ -56,11 +56,11 @@ export class Chart extends PIXI.Container {
     }
 
     private updatePoints(startDate: Date, endDate: Date, startNumber: number, endNumber: number) {
-        let points = this.dateRangeTransformer.transform(startDate, endDate, this.screenWidth, TimeUnit.Minute);
-        this.xAxis.setPoints(points, startDate, endDate);
+        let points = this.dateRangeTransformer.transform(startDate, endDate, TimeUnit.Minute);
+        this.xAxis.setPoints(points, startDate, endDate, this.screenWidth);
 
-        let numbers = this.floatTransformer.transform(startNumber, endNumber, this.screenHeight, NumberUnit.Ones);
-        this.yAxis.setPoints(numbers, startNumber, endNumber);
+        let numbers = this.floatTransformer.transform(startNumber, endNumber, NumberUnit.Ones);
+        this.yAxis.setPoints(numbers, startNumber, endNumber, this.screenHeight);
 
         this.grid.setPoints(points, numbers);
     }

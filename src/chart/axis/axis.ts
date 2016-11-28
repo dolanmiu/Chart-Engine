@@ -34,5 +34,5 @@ export abstract class Axis<T> extends PIXI.Graphics {
         };
     }
 
-    abstract setPoints(points: Array<AxisPoint<T>>, startValue: T, endValue: T): void;
+    abstract setPoints(points: Array<AxisPoint<T>>, startValue: T, endValue: T, length: number): void;
 }

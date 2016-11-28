@@ -7,7 +7,7 @@ export enum TimeUnit {
 
 export class DateRangeTransformer implements ITransformer<Date> {
 
-    public transform(startDate: Date, endDate: Date, width: number, timeUnit: TimeUnit) {
+    public transform(startDate: Date, endDate: Date, timeUnit: TimeUnit) {
         let arrayOfAxis = new Array<AxisPoint<Date>>();
         let totalMillisecondsInRange = endDate.getTime() - startDate.getTime();
         let totalUnits = Math.floor(Math.abs(totalMillisecondsInRange) / timeUnit);
@@ -17,7 +17,7 @@ export class DateRangeTransformer implements ITransformer<Date> {
         for (let i = 1; i <= totalUnits; i++) {
             let keyDate = new Date(baseDate.getTime() + timeUnit * i);
             let relativeDate = keyDate.getTime() - startDate.getTime();
-            let xPos = (relativeDate / totalMillisecondsInRange) * width;
+            let xPos = (relativeDate / totalMillisecondsInRange);
 
             arrayOfAxis.push(new AxisPoint(keyDate, xPos));
         }

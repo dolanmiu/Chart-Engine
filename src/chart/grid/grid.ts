@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-
+import { GraphicsUtil } from "../../common/graphics-util";
 import { AxisPoint } from "../axis";
 
 export class Grid<T, V> extends PIXI.Graphics {
@@ -22,13 +22,17 @@ export class Grid<T, V> extends PIXI.Graphics {
         this.lineStyle(1, 0x0000FF, 1);
 
         for (let point of this.points.x) {
-            this.moveTo(point.Pos, 0);
-            this.lineTo(point.Pos, screenHeight);
+            let xPos = GraphicsUtil.convertToDrawable(point.PosRatio * screenWidth);
+
+            this.moveTo(xPos, 0);
+            this.lineTo(xPos, screenHeight);
         };
 
         for (let point of this.points.y) {
-            this.moveTo(0, point.Pos);
-            this.lineTo(screenWidth, point.Pos);
+            let yPos = GraphicsUtil.convertToDrawable(point.PosRatio * screenHeight);
+
+            this.moveTo(0, yPos);
+            this.lineTo(screenWidth, yPos);
         };
 
         this.endFill();
