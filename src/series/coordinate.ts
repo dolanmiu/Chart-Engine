@@ -1,4 +1,4 @@
-export interface ICoordinate {
-    y: number;
-    x: number;
+export interface ICoordinate<T, V> {
+    y: V;
+    x: T;
 }

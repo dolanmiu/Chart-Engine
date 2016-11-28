@@ -1,17 +1,19 @@
 import * as PIXI from "pixi.js";
-import { ISeriesNode } from "./node";
+import { ISeries } from "./series";
 import { ICoordinate } from "./coordinate";
 
-export class LineSeries extends PIXI.Graphics implements ISeriesNode {
+export class LineSeries<T, V> extends PIXI.Graphics implements ISeries<T> {
 
-    private coordinates: Array<ICoordinate>;
+    private coordinates: Array<ICoordinate<T, V>>;
 
     constructor() {
         super();
     }
 
-    draw() {
+    draw(startValue: T, endValue: T) {
         this.clear();
+
+        /*
 
         this.coordinates.forEach((coordinate, i) => {
             if (i === 0) {
@@ -19,6 +21,10 @@ export class LineSeries extends PIXI.Graphics implements ISeriesNode {
             }
 
             this.lineTo(coordinate.x, coordinate.y);
-        });
+        });*/
+    }
+
+    addCoordinate(coordinate: ICoordinate<T, V>) {
+        this.coordinates.push(coordinate);
     }
 }
