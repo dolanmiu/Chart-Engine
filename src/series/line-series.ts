@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { ISeries } from "./series";
 import { ICoordinate } from "./coordinate";
 
-export class LineSeries<T, V> extends PIXI.Graphics implements ISeries<T> {
+export class LineSeries<T, V> extends PIXI.Graphics {
 
     private coordinates: Array<ICoordinate<T, V>>;
 
@@ -10,7 +10,7 @@ export class LineSeries<T, V> extends PIXI.Graphics implements ISeries<T> {
         super();
     }
 
-    draw(startValue: T, endValue: T) {
+    public draw(startValue: T, endValue: T) {
         this.clear();
 
         /*

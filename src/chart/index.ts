@@ -8,7 +8,7 @@ import { DateToStringer, DragHandler, StandardToStringer } from "../common";
 
 export class Chart extends PIXI.Container {
     private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
-    private seriesCollection: Array<ISeries>;
+    private seriesCollection: Array<ISeries<Date>>;
     private grid: Grid<Date, number>;
     private stageContainer: PIXI.Container;
     private xAxis: XAxis<Date>;
@@ -19,7 +19,7 @@ export class Chart extends PIXI.Container {
     constructor(private screenWidth: number, private screenHeight: number) {
         super();
 
-        this.seriesCollection = new Array<ISeries>();
+        this.seriesCollection = new Array<ISeries<Date>>();
         this.grid = new Grid<Date, number>(100, 100);
         this.renderer = PIXI.autoDetectRenderer(this.screenWidth, this.screenHeight, { backgroundColor: 0x1099bb, antialias: false });
         this.stageContainer = new PIXI.Container();
@@ -73,7 +73,7 @@ export class Chart extends PIXI.Container {
         this.renderer.render(this);
     };
 
-    public addSeries(series: ISeries) {
+    public addSeries(series: ISeries<Date>) {
         this.seriesCollection.push(series);
     }
 

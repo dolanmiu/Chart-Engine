@@ -64,6 +64,9 @@
         "no-consecutive-blank-lines": [
             true
         ],
-        "eofline": true
+        "eofline": true,
+        "member-access": [
+            true
+        ]
     }
 }
