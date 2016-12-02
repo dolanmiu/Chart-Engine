@@ -1,5 +1,6 @@
 import { Series } from "../series";
 import { DateRangeTransformer } from "../../chart/transformers/date-range-transformer";
+import { AxisPoint } from "../../chart/axis";
 
 export interface CandleData {
     open: number;
@@ -10,8 +11,8 @@ export interface CandleData {
 }
 
 interface CandleDataDatePair {
-    data: Array<CandleData>
-    date: Date
+    data: Array<CandleData>;
+    date: Date;
 }
 
 export class CandleSeries extends Series<Date> {
@@ -25,7 +26,10 @@ export class CandleSeries extends Series<Date> {
         this.nodes = new Array<CandleData>();
     }
 
-    private sliceStartEndData(startDate: Date, endDate: Date) {
+    private createCandlePairs(axisPoints: Array<AxisPoint<Date>>, resolution: number) {
+        for (let axisPoint of axisPoints) {
+            
+        }
         return new Array<CandleDataDatePair>();
     }
 
@@ -57,7 +61,8 @@ export class CandleSeries extends Series<Date> {
 
     public draw(startDate: Date, endDate: Date) {
         let axisPoints = this.rangeTransformer.transform(startDate, endDate, this.resolution);
-        let data = this.sliceStartEndData(axisPoints[0].Value, axisPoints[axisPoints.length - 1].Value);
+        // pass in axis points perhaps?
+        let data = this.createCandlePairs(axisPoints, this.resolution);
 
         let bars = new Array<CandleData>();
 
