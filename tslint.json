@@ -67,6 +67,8 @@
         "eofline": true,
         "member-access": [
             true
-        ]
+        ],
+        "prefer-for-of": true,
+        "no-null-keyword": true
     }
 }

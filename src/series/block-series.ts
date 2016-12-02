@@ -11,9 +11,5 @@ export class BlockSeries extends PIXI.Graphics {
 
     public draw() {
         this.clear();
-
-        for (let node of this.nodes) {
-            node.draw();
-        }
     }
 }
