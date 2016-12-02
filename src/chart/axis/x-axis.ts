@@ -5,7 +5,7 @@ import { GraphicsUtil } from "../../common/graphics-util";
 
 export class XAxis<T> extends Axis<T> {
 
-    setPoints(points: Array<AxisPoint<T>>, startValue: T, endValue: T, length: number) {
+    public setPoints(points: Array<AxisPoint<T>>, startValue: T, endValue: T, length: number) {
         if (!points || points.length === 0) {
             return;
         }
