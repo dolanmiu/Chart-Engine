@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Chart } from "./chart";
+import { CandleSeries } from "./series/candle-series/candle-series";
 
 PIXI.Transform.prototype.position = function () {
     console.log("injection hack");
@@ -10,4 +11,7 @@ PIXI.Transform.prototype.position = function () {
 
 let chart = new Chart(800, 600);
 document.body.appendChild(chart.Renderer.view);
+let series = new CandleSeries();
+//series.add
+chart.addSeries(series);
 chart.animate();

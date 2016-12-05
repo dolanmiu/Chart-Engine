@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { ISeries } from "../series";
+import { ISeries, Series } from "../series";
 import { Grid } from "./grid";
 import { DateRangeTransformer, TimeUnit, FloatTransformer, NumberUnit } from "./transformers";
 import { ChartMask } from "./chart-mask";
@@ -8,7 +8,6 @@ import { DateToStringer, DragHandler, StandardToStringer } from "../common";
 
 export class Chart extends PIXI.Container {
     private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
-    private seriesCollection: Array<ISeries<Date>>;
     private grid: Grid<Date, number>;
     private stageContainer: PIXI.Container;
     private xAxis: XAxis<Date>;
@@ -19,7 +18,6 @@ export class Chart extends PIXI.Container {
     constructor(private screenWidth: number, private screenHeight: number) {
         super();
 
-        this.seriesCollection = new Array<ISeries<Date>>();
         this.grid = new Grid<Date, number>(100, 100);
         this.renderer = PIXI.autoDetectRenderer(this.screenWidth, this.screenHeight, { backgroundColor: 0x1099bb, antialias: false });
         this.stageContainer = new PIXI.Container();
@@ -62,6 +60,10 @@ export class Chart extends PIXI.Container {
         let numbers = this.floatTransformer.transform(startNumber, endNumber, NumberUnit.Ones);
         this.yAxis.setPoints(numbers, startNumber, endNumber, this.screenHeight);
 
+        for (let series of this.Series) {
+            series.draw(startDate, endDate);
+        }
+
         this.grid.setPoints(points, numbers);
     }
 
@@ -71,10 +73,20 @@ export class Chart extends PIXI.Container {
         this.yAxis.draw(this.screenWidth);
         this.grid.draw(this.screenWidth, this.screenHeight);
         this.renderer.render(this);
-    };
+    }
 
-    public addSeries(series: ISeries<Date>) {
-        this.seriesCollection.push(series);
+    public addSeries(series: Series<Date>) {
+        this.addChild(series);
+    }
+
+    get Series() {
+        let array = new Array<Series<Date>>();
+        for (let child of this.children) {
+            if (child instanceof Series) {
+                array.push(child);
+            }
+        }
+        return array;
     }
 
     public zoom(zoomAmount: number) {

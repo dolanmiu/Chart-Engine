@@ -1,5 +1,5 @@
 import { BlockSeries } from "./block-series";
 import { LineSeries } from "./line-series";
-import { ISeries } from "./series";
+import { ISeries, Series } from "./series";
 
-export { ISeries, BlockSeries, LineSeries }
+export { ISeries, BlockSeries, LineSeries, Series }

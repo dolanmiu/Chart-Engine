@@ -15,7 +15,7 @@ export abstract class Series<T extends ICountable> extends PIXI.Graphics impleme
 
     constructor() {
         super();
-        this.resolution = 1;
+        this.resolution = 1000 * 60;
     }
 
     private findMidPointOfSubArray(array: Array<T>, startIndex: number, endIndex: number, inputValue: T) {

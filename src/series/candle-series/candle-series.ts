@@ -1,5 +1,5 @@
 import { Series } from "../series";
-import { DateRangeTransformer } from "../../chart/transformers/date-range-transformer";
+import { DateRangeTransformer, TimeUnit } from "../../chart/transformers/date-range-transformer";
 import { AxisPoint } from "../../chart/axis";
 
 export interface CandleData {
@@ -20,17 +20,29 @@ export class CandleSeries extends Series<Date> {
     private rangeTransformer: DateRangeTransformer;
     private nodes: Array<CandleData>;
 
-    constructor(params: Object) {
+    constructor(params: Object = {}) {
         super();
         this.rangeTransformer = new DateRangeTransformer();
         this.nodes = new Array<CandleData>();
     }
 
     private createCandlePairs(axisPoints: Array<AxisPoint<Date>>, resolution: number) {
+        let candleDataPairs = new Array<CandleDataDatePair>();
         for (let axisPoint of axisPoints) {
             
         }
-        return new Array<CandleDataDatePair>();
+
+        candleDataPairs.push({
+            data: [{
+                open: 1,
+                close: 2,
+                high: 5,
+                low: 0,
+                date: new Date()
+            }],
+            date: new Date()
+        });
+        return candleDataPairs;
     }
 
     private averageCandle(data: CandleDataDatePair) {
@@ -56,12 +68,13 @@ export class CandleSeries extends Series<Date> {
     }
 
     private drawBar(bar: CandleData) {
-
+        this.drawCircle(100, 100, 10);
+        console.log(bar);
     }
 
     public draw(startDate: Date, endDate: Date) {
         let axisPoints = this.rangeTransformer.transform(startDate, endDate, this.resolution);
-        // pass in axis points perhaps?
+
         let data = this.createCandlePairs(axisPoints, this.resolution);
 
         let bars = new Array<CandleData>();
@@ -71,6 +84,7 @@ export class CandleSeries extends Series<Date> {
         }
 
         this.clear();
+        this.lineStyle(1, 0x0000FF, 1);
 
         for (let bar of bars) {
             this.drawBar(bar);
