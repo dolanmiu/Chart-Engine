@@ -1,13 +1,14 @@
 import { Series } from "../series";
 import { DateRangeTransformer, TimeUnit } from "../../chart/transformers/date-range-transformer";
 import { AxisPoint } from "../../chart/axis";
+import { GraphicsUtil } from "../../common/graphics-util";
 
 export interface CandleData {
     open: number;
     close: number;
     high: number;
     low: number;
-    date: Date;
+    date?: Date;
 }
 
 export class CandleSeries extends Series<Date> {
@@ -21,7 +22,7 @@ export class CandleSeries extends Series<Date> {
         this.nodes = new Array<CandleData>();
     }
 
-    private createCandleCollection(axisPoints: Array<AxisPoint<Date>>, resolution: number) {
+    private createCandleCollection(axisPoints: Array<AxisPoint<Date>>, resolution: number): Array<Array<AxisPoint<CandleData>>> {
         let candleDataPairs = new Array<Array<AxisPoint<CandleData>>>();
 
         axisPoints.forEach(() => {
@@ -42,7 +43,7 @@ export class CandleSeries extends Series<Date> {
         return candleDataPairs;
     }
 
-    private averageCandle(data: Array<AxisPoint<CandleData>>): CandleData {
+    private averageCandle(data: Array<AxisPoint<CandleData>>): AxisPoint<CandleData> {
         let totalOpen = 0;
         let totalClose = 0;
         let totalHigh = 0;
@@ -54,21 +55,29 @@ export class CandleSeries extends Series<Date> {
             totalClose += datum.Value.close;
             totalHigh += datum.Value.high;
             totalLow += datum.Value.low;
-            totalPos += datum.Value.date.getTime();
+            totalPos += datum.PosRatio;
         }
 
         return {
-            open: totalOpen / data.length,
-            close: totalClose / data.length,
-            high: totalHigh / data.length,
-            low: totalLow / data.length,
-            date: new Date(totalPos / data.length),
+            Value: {
+                open: totalOpen / data.length,
+                close: totalClose / data.length,
+                high: totalHigh / data.length,
+                low: totalLow / data.length
+            },
+            PosRatio: totalPos / data.length
         };
     }
 
-    private drawBar(bar: CandleData) {
-        let height = Math.abs(bar.close - bar.open);
-        this.drawRect(100, bar.open, 10, height);
+    private drawBar(bar: AxisPoint<CandleData>) {
+        if (isNaN(bar.Value.close) || isNaN(bar.Value.open)) {
+            return;
+        }
+
+        let height = Math.abs(bar.Value.close - bar.Value.open);
+        let xPos = GraphicsUtil.convertToDrawable(bar.PosRatio * 1000);
+
+        this.drawRect(xPos, bar.Value.open, 10, height);
         console.log(bar);
     }
 
@@ -77,7 +86,7 @@ export class CandleSeries extends Series<Date> {
 
         let data = this.createCandleCollection(axisPoints, this.resolution);
 
-        let bars = new Array<CandleData>();
+        let bars = new Array<AxisPoint<CandleData>>();
 
         for (let datum of data) {
             bars.push(this.averageCandle(datum));
