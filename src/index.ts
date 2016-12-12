@@ -12,6 +12,13 @@ PIXI.Transform.prototype.position = function () {
 let chart = new Chart(800, 600);
 document.body.appendChild(chart.Renderer.view);
 let series = new CandleSeries();
+series.Nodes.push({
+    open: 3,
+    close: 5,
+    low: 3,
+    high: 10,
+    date: new Date()
+});
 //series.add
 chart.addSeries(series);
 chart.animate();

@@ -19,7 +19,10 @@ export class FloatTransformer implements ITransformer<number> {
             let relativeDate = keyDate - startNumber;
             let xPos = (relativeDate / totalRange);
 
-            arrayOfAxis.push(new AxisPoint(keyDate, xPos));
+            arrayOfAxis.push({
+                PosRatio: xPos,
+                Value: keyDate
+            });
         }
 
         return arrayOfAxis;

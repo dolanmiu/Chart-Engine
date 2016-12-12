@@ -10,11 +10,6 @@ export interface CandleData {
     date: Date;
 }
 
-interface CandleDataDatePair {
-    data: Array<CandleData>;
-    date: Date;
-}
-
 export class CandleSeries extends Series<Date> {
 
     private rangeTransformer: DateRangeTransformer;
@@ -26,56 +21,61 @@ export class CandleSeries extends Series<Date> {
         this.nodes = new Array<CandleData>();
     }
 
-    private createCandlePairs(axisPoints: Array<AxisPoint<Date>>, resolution: number) {
-        let candleDataPairs = new Array<CandleDataDatePair>();
-        for (let axisPoint of axisPoints) {
-            
+    private createCandleCollection(axisPoints: Array<AxisPoint<Date>>, resolution: number) {
+        let candleDataPairs = new Array<Array<AxisPoint<CandleData>>>();
+
+        axisPoints.forEach(() => {
+            candleDataPairs.push(Array<AxisPoint<CandleData>>());
+        });
+
+        for (let node of this.nodes) {
+            for (let i = 0; i < axisPoints.length - 1; i++) {
+                if (axisPoints[i].Value < node.date && node.date <= axisPoints[i + 1].Value) {
+                    candleDataPairs[i].push({
+                        Value: node,
+                        PosRatio: axisPoints[i].PosRatio
+                    });
+                }
+            }
         }
 
-        candleDataPairs.push({
-            data: [{
-                open: 1,
-                close: 2,
-                high: 5,
-                low: 0,
-                date: new Date()
-            }],
-            date: new Date()
-        });
         return candleDataPairs;
     }
 
-    private averageCandle(data: CandleDataDatePair) {
+    private averageCandle(data: Array<AxisPoint<CandleData>>): CandleData {
         let totalOpen = 0;
         let totalClose = 0;
         let totalHigh = 0;
         let totalLow = 0;
+        let totalPos = 0;
 
-        for (let datum of data.data) {
-            totalOpen += datum.open;
-            totalClose += datum.close;
-            totalHigh += datum.high;
-            totalLow += datum.low;
+        for (let datum of data) {
+            totalOpen += datum.Value.open;
+            totalClose += datum.Value.close;
+            totalHigh += datum.Value.high;
+            totalLow += datum.Value.low;
+            totalPos += datum.Value.date.getTime();
         }
 
         return {
-            open: totalOpen / data.data.length,
-            close: totalClose / data.data.length,
-            high: totalHigh / data.data.length,
-            low: totalLow / data.data.length,
-            date: data.date,
+            open: totalOpen / data.length,
+            close: totalClose / data.length,
+            high: totalHigh / data.length,
+            low: totalLow / data.length,
+            date: new Date(totalPos / data.length),
         };
     }
 
     private drawBar(bar: CandleData) {
-        this.drawCircle(100, 100, 10);
+        let height = Math.abs(bar.close - bar.open);
+        this.drawRect(100, bar.open, 10, height);
         console.log(bar);
     }
 
     public draw(startDate: Date, endDate: Date) {
         let axisPoints = this.rangeTransformer.transform(startDate, endDate, this.resolution);
 
-        let data = this.createCandlePairs(axisPoints, this.resolution);
+        let data = this.createCandleCollection(axisPoints, this.resolution);
 
         let bars = new Array<CandleData>();
 
@@ -89,5 +89,9 @@ export class CandleSeries extends Series<Date> {
         for (let bar of bars) {
             this.drawBar(bar);
         }
+    }
+
+    get Nodes() {
+        return this.nodes;
     }
 }

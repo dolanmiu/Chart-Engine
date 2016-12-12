@@ -19,7 +19,10 @@ export class DateRangeTransformer implements ITransformer<Date> {
             let relativeDate = keyDate.getTime() - startDate.getTime();
             let xPos = (relativeDate / totalMillisecondsInRange);
 
-            arrayOfAxis.push(new AxisPoint(keyDate, xPos));
+            arrayOfAxis.push({
+                PosRatio: xPos,
+                Value: keyDate
+            });
         }
 
         return arrayOfAxis;
