@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
+    "@types/inversify": "^2.0.31",
     "@types/mocha": "^2.2.33",
     "@types/pixi.js": "^3.0.31",
     "awesome-typescript-loader": "^2.2.4",
