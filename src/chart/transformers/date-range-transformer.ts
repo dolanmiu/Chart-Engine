@@ -7,7 +7,7 @@ export enum TimeUnit {
 
 export class DateRangeTransformer implements ITransformer<Date> {
 
-    public transform(startDate: Date, endDate: Date, timeUnit: TimeUnit) {
+    public transform(startDate: Date, endDate: Date, timeUnit: TimeUnit): Array<AxisPoint<Date>> {
         let arrayOfAxis = new Array<AxisPoint<Date>>();
         let totalMillisecondsInRange = endDate.getTime() - startDate.getTime();
         let totalUnits = Math.floor(Math.abs(totalMillisecondsInRange) / timeUnit);
@@ -29,7 +29,7 @@ export class DateRangeTransformer implements ITransformer<Date> {
     }
 
     // This only rounds off the date to prepare for addition
-    private createBaseDate(startDate: Date, timeUnit: TimeUnit) {
+    private createBaseDate(startDate: Date, timeUnit: TimeUnit): Date {
         let baseDate: Date;
 
         switch (timeUnit) {

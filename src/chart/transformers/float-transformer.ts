@@ -7,7 +7,7 @@ export enum NumberUnit {
 
 export class FloatTransformer implements ITransformer<number> {
 
-    public transform(startNumber: number, endNumber: number, unit: NumberUnit) {
+    public transform(startNumber: number, endNumber: number, unit: NumberUnit): Array<AxisPoint<number>> {
         let arrayOfAxis = new Array<AxisPoint<number>>();
         let totalRange = endNumber - startNumber;
         let totalUnits = Math.floor(Math.abs(totalRange) / unit);
@@ -29,7 +29,7 @@ export class FloatTransformer implements ITransformer<number> {
     }
 
     // This only rounds off the date to prepare for addition
-    private createBaseNumber(startDate: number, unit: NumberUnit) {
+    private createBaseNumber(startDate: number, unit: NumberUnit): number {
         let baseNumber: number;
 
         switch (unit) {

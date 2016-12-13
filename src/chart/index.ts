@@ -54,7 +54,7 @@ export class Chart extends PIXI.Container {
         }, false);
     }
 
-    private updatePoints(startDate: Date, endDate: Date, startNumber: number, endNumber: number) {
+    private updatePoints(startDate: Date, endDate: Date, startNumber: number, endNumber: number): void {
         let points = this.dateRangeTransformer.transform(startDate, endDate, TimeUnit.Minute);
         this.xAxis.setPoints(points, startDate, endDate);
 
@@ -83,7 +83,7 @@ export class Chart extends PIXI.Container {
         this.addChild(series);
     }
 
-    get Series() {
+    get Series(): Array<Series<Date>> {
         let array = new Array<Series<Date>>();
         for (let child of this.children) {
             if (child instanceof Series) {
@@ -93,7 +93,7 @@ export class Chart extends PIXI.Container {
         return array;
     }
 
-    public zoom(zoomAmount: number) {
+    public zoom(zoomAmount: number): void {
         let startDate = new Date(this.xAxis.StartValue.getTime() - zoomAmount);
         let endDate = new Date(this.xAxis.EndValue.getTime() + zoomAmount);
         let startNumber = this.yAxis.StartValue;
@@ -101,7 +101,7 @@ export class Chart extends PIXI.Container {
         this.updatePoints(startDate, endDate, startNumber, endNumber);
     }
 
-    get Renderer() {
+    get Renderer(): PIXI.CanvasRenderer | PIXI.WebGLRenderer {
         return this.renderer;
     }
 }

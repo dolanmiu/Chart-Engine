@@ -1,5 +1,5 @@
 import { Series } from "../series";
-import { DateRangeTransformer, TimeUnit } from "../../chart/transformers/date-range-transformer";
+import { DateRangeTransformer } from "../../chart/transformers/date-range-transformer";
 import { AxisPoint } from "../../chart/axis";
 import { GraphicsUtil } from "../../common/graphics-util";
 
@@ -100,7 +100,7 @@ export class CandleSeries extends Series<Date> {
         }
     }
 
-    get Nodes() {
+    get Nodes(): Array<CandleData> {
         return this.nodes;
     }
 }

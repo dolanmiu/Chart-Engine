@@ -9,7 +9,7 @@ export class BlockSeries extends PIXI.Graphics {
         this.nodes = new Array<ISeriesNode>();
     }
 
-    public draw() {
+    public draw(): void {
         this.clear();
     }
 }

@@ -18,7 +18,7 @@ export abstract class Series<T extends ICountable> extends PIXI.Graphics impleme
         this.resolution = 1000 * 60;
     }
 
-    private findMidPointOfSubArray(array: Array<T>, startIndex: number, endIndex: number, inputValue: T) {
+    private findMidPointOfSubArray(array: Array<T>, startIndex: number, endIndex: number, inputValue: T): T {
         if (array.length === 1) {
             return array[0];
         }
@@ -35,7 +35,7 @@ export abstract class Series<T extends ICountable> extends PIXI.Graphics impleme
         return result;
     }
 
-    protected findStartCoordinate(array: Array<T>, inputValue: T) {
+    protected findStartCoordinate(array: Array<T>, inputValue: T): T {
         return this.findMidPointOfSubArray(array, 0, array.length - 1, inputValue);
     }
 

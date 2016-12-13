@@ -14,7 +14,7 @@ export class DragHandler {
     constructor(private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer) {
     }
 
-    public enable(tick: (x: number, y: number) => void) {
+    public enable(tick: (x: number, y: number) => void): void {
         this.renderer.plugins.interaction
             .on("mousedown", onDragStart)
             .on("touchstart", onDragStart)
@@ -27,19 +27,19 @@ export class DragHandler {
 
         let self = this;
 
-        function onDragStart(event: any) {
+        function onDragStart(event: any): void {
             self.dragEvent = event.data;
             self.relativeX = self.dragEvent.originalEvent.clientX;
             self.relativeY = self.dragEvent.originalEvent.clientY;
             self.dragging = true;
         }
 
-        function onDragEnd() {
+        function onDragEnd(): void {
             self.dragging = false;
-            self.dragEvent = null;
+            self.dragEvent = undefined;
         }
 
-        function onDragMove(event: any) {
+        function onDragMove(event: any): void {
             if (self.dragging) {
                 let x = self.dragEvent.originalEvent.clientX - self.relativeX;
                 let y = self.dragEvent.originalEvent.clientY - self.relativeY;

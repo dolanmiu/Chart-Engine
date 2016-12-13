@@ -11,7 +11,7 @@ export abstract class LinearNode extends PIXI.Graphics implements ISeriesNode {
         this.xAxisPos = x;
     }
 
-    public draw() {
+    public draw(): void {
         this.clear();
 
         for (let coordinate of this.coordinates) {

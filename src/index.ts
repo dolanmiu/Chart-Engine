@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { Chart } from "./chart";
 import { CandleSeries } from "./series/candle-series/candle-series";
 
-PIXI.Transform.prototype.position = function () {
+PIXI.Transform.prototype.position = function (): PIXI.Point {
     console.log("injection hack");
     return new PIXI.Point(100, 100);
 }();
@@ -19,6 +19,5 @@ series.Nodes.push({
     high: 10,
     date: new Date()
 });
-//series.add
 chart.addSeries(series);
 chart.animate();
