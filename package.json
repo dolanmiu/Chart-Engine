@@ -27,12 +27,12 @@
   },
   "homepage": "https://github.com/dolanmiu/Chart-Engine#readme",
   "dependencies": {
+    "inversify": "^3.0.0-rc.2",
     "pixi.js": "^4.1.1",
     "reflect-metadata": "^0.1.8"
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
-    "@types/inversify": "^2.0.31",
     "@types/mocha": "^2.2.33",
     "@types/pixi.js": "^3.0.31",
     "awesome-typescript-loader": "^2.2.4",
