@@ -17,7 +17,7 @@ export class Grid<T, V> extends PIXI.Graphics {
         };
     }
 
-    public draw(screenWidth: number, screenHeight: number) {
+    public draw(): void {
         this.clear();
         this.lineStyle(1, 0x0000FF, 1);
 
@@ -25,20 +25,20 @@ export class Grid<T, V> extends PIXI.Graphics {
             let xPos = GraphicsUtil.convertToDrawableWidth(point.PosRatio);
 
             this.moveTo(xPos, 0);
-            this.lineTo(xPos, screenHeight);
+            this.lineTo(xPos, GraphicsUtil.ScreenHeight);
         };
 
         for (let point of this.points.y) {
             let yPos = GraphicsUtil.convertToDrawableHeight(point.PosRatio);
 
             this.moveTo(0, yPos);
-            this.lineTo(screenWidth, yPos);
+            this.lineTo(GraphicsUtil.ScreenWidth, yPos);
         };
 
         this.endFill();
     }
 
-    public setPoints(xPoints: Array<AxisPoint<T>>, yPoints: Array<AxisPoint<V>>) {
+    public setPoints(xPoints: Array<AxisPoint<T>>, yPoints: Array<AxisPoint<V>>): void {
         this.points.x = xPoints;
         this.points.y = yPoints;
     }

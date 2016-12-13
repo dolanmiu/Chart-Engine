@@ -1,5 +1,4 @@
 import * as PIXI from "pixi.js";
-import { ISeries } from "./series";
 import { ICoordinate } from "./coordinate";
 
 export class LineSeries<T, V> extends PIXI.Graphics {
@@ -10,7 +9,7 @@ export class LineSeries<T, V> extends PIXI.Graphics {
         super();
     }
 
-    public draw(startValue: T, endValue: T) {
+    public draw(startValue: T, endValue: T): void {
         this.clear();
 
         /*
@@ -24,7 +23,7 @@ export class LineSeries<T, V> extends PIXI.Graphics {
         });*/
     }
 
-    addCoordinate(coordinate: ICoordinate<T, V>) {
+    public addCoordinate(coordinate: ICoordinate<T, V>): void {
         this.coordinates.push(coordinate);
     }
 }

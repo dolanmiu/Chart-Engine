@@ -69,7 +69,7 @@ export class CandleSeries extends Series<Date> {
         };
     }
 
-    private drawBar(bar: AxisPoint<CandleData>) {
+    private drawBar(bar: AxisPoint<CandleData>): void {
         if (isNaN(bar.Value.close) || isNaN(bar.Value.open)) {
             return;
         }
@@ -81,7 +81,7 @@ export class CandleSeries extends Series<Date> {
         console.log(bar);
     }
 
-    public draw(startDate: Date, endDate: Date) {
+    public draw(startDate: Date, endDate: Date): void {
         let axisPoints = this.rangeTransformer.transform(startDate, endDate, this.resolution);
 
         let data = this.createCandleCollection(axisPoints, this.resolution);

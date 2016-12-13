@@ -1,11 +1,11 @@
 import * as PIXI from "pixi.js";
-import { ISeries, Series } from "../series";
+import { Series } from "../series";
 import { Grid } from "./grid";
 import { DateRangeTransformer, TimeUnit, FloatTransformer, NumberUnit } from "./transformers";
 import { ChartMask } from "./chart-mask";
 import { XAxis, YAxis } from "./axis";
 import { DateToStringer, DragHandler, StandardToStringer } from "../common";
-import { GraphicsUtil } from '../common/graphics-util';
+import { GraphicsUtil } from "../common/graphics-util";
 
 export class Chart extends PIXI.Container {
     private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
@@ -56,10 +56,10 @@ export class Chart extends PIXI.Container {
 
     private updatePoints(startDate: Date, endDate: Date, startNumber: number, endNumber: number) {
         let points = this.dateRangeTransformer.transform(startDate, endDate, TimeUnit.Minute);
-        this.xAxis.setPoints(points, startDate, endDate, this.screenWidth);
+        this.xAxis.setPoints(points, startDate, endDate);
 
         let numbers = this.floatTransformer.transform(startNumber, endNumber, NumberUnit.Ones);
-        this.yAxis.setPoints(numbers, startNumber, endNumber, this.screenHeight);
+        this.yAxis.setPoints(numbers, startNumber, endNumber);
 
         for (let series of this.Series) {
             series.draw(startDate, endDate);
@@ -75,11 +75,11 @@ export class Chart extends PIXI.Container {
 
         this.xAxis.draw();
         this.yAxis.draw();
-        this.grid.draw(this.screenWidth, this.screenHeight);
+        this.grid.draw();
         this.renderer.render(this);
     }
 
-    public addSeries(series: Series<Date>) {
+    public addSeries(series: Series<Date>): void {
         this.addChild(series);
     }
 
