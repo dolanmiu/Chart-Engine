@@ -20,7 +20,7 @@ export class XAxis<T> extends Axis<T> {
 
         points.forEach(point => {
             let p = new XPoint(this.toStringer.stringify(point.Value));
-            p.x = GraphicsUtil.convertToDrawable(point.PosRatio * length);
+            p.x = GraphicsUtil.convertToDrawableWidth(point.PosRatio);
             this.addChild(p);
         });
     }

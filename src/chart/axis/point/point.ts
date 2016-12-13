@@ -13,9 +13,9 @@ export abstract class Point extends PIXI.Graphics {
         this.addChild(this.text);
     }
 
-    abstract draw(changeMe: number): void;
+    public abstract draw(): void;
 
-    destroy() {
+    public destroy(): void {
         super.destroy();
         this.text.destroy();
         this.removeChildren();

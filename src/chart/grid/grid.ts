@@ -22,14 +22,14 @@ export class Grid<T, V> extends PIXI.Graphics {
         this.lineStyle(1, 0x0000FF, 1);
 
         for (let point of this.points.x) {
-            let xPos = GraphicsUtil.convertToDrawable(point.PosRatio * screenWidth);
+            let xPos = GraphicsUtil.convertToDrawableWidth(point.PosRatio);
 
             this.moveTo(xPos, 0);
             this.lineTo(xPos, screenHeight);
         };
 
         for (let point of this.points.y) {
-            let yPos = GraphicsUtil.convertToDrawable(point.PosRatio * screenHeight);
+            let yPos = GraphicsUtil.convertToDrawableHeight(point.PosRatio);
 
             this.moveTo(0, yPos);
             this.lineTo(screenWidth, yPos);
@@ -38,7 +38,7 @@ export class Grid<T, V> extends PIXI.Graphics {
         this.endFill();
     }
 
-    setPoints(xPoints: Array<AxisPoint<T>>, yPoints: Array<AxisPoint<V>>) {
+    public setPoints(xPoints: Array<AxisPoint<T>>, yPoints: Array<AxisPoint<V>>) {
         this.points.x = xPoints;
         this.points.y = yPoints;
     }

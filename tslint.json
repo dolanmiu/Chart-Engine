@@ -69,6 +69,13 @@
             true
         ],
         "prefer-for-of": true,
-        "no-null-keyword": true
+        "no-null-keyword": true,
+        "typedef": [
+            true,
+            "call-signature",
+            "parameter",
+            "member-variable-declaration",
+            "property-declaration"
+        ]
     }
 }

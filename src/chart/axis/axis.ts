@@ -25,14 +25,14 @@ export abstract class Axis<T> extends PIXI.Graphics {
         return this.endValue;
     }
 
-    public draw(screenHeight: number) {
+    public draw(): void {
         this.clear();
 
         for (let child of this.children) {
             let point = <Point>child;
-            point.draw(screenHeight);
+            point.draw();
         };
     }
 
-    abstract setPoints(points: Array<AxisPoint<T>>, startValue: T, endValue: T, length: number): void;
+    public abstract setPoints(points: Array<AxisPoint<T>>, startValue: T, endValue: T, length: number): void;
 }

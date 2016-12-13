@@ -5,6 +5,7 @@ import { DateRangeTransformer, TimeUnit, FloatTransformer, NumberUnit } from "./
 import { ChartMask } from "./chart-mask";
 import { XAxis, YAxis } from "./axis";
 import { DateToStringer, DragHandler, StandardToStringer } from "../common";
+import { GraphicsUtil } from '../common/graphics-util';
 
 export class Chart extends PIXI.Container {
     private renderer: PIXI.CanvasRenderer | PIXI.WebGLRenderer;
@@ -69,8 +70,11 @@ export class Chart extends PIXI.Container {
 
     public animate = () => {
         requestAnimationFrame(this.animate);
-        this.xAxis.draw(this.screenHeight);
-        this.yAxis.draw(this.screenWidth);
+        GraphicsUtil.ScreenHeight = this.screenHeight;
+        GraphicsUtil.ScreenWidth = this.screenWidth;
+
+        this.xAxis.draw();
+        this.yAxis.draw();
         this.grid.draw(this.screenWidth, this.screenHeight);
         this.renderer.render(this);
     }

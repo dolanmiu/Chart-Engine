@@ -7,7 +7,7 @@ export class YPoint extends Point {
         this.text.anchor.y = 0.5;
     }
 
-    public draw(screenHeight: number) {
+    public draw(): void {
         this.clear();
         this.lineStyle(1, 0x0000FF, 1);
         this.moveTo(0, 0);

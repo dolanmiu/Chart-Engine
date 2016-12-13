@@ -75,7 +75,7 @@ export class CandleSeries extends Series<Date> {
         }
 
         let height = Math.abs(bar.Value.close - bar.Value.open);
-        let xPos = GraphicsUtil.convertToDrawable(bar.PosRatio * 1000);
+        let xPos = GraphicsUtil.convertToDrawableWidth(bar.PosRatio);
 
         this.drawRect(xPos, bar.Value.open, 10, height);
         console.log(bar);

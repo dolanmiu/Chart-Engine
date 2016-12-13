@@ -20,7 +20,7 @@ export class YAxis<T> extends Axis<T> {
 
         points.forEach(point => {
             let p = new YPoint(this.toStringer.stringify(point.Value));
-            p.y = GraphicsUtil.convertToDrawable(point.PosRatio * length);
+            p.y = GraphicsUtil.convertToDrawableHeight(point.PosRatio);
             this.addChild(p);
         });
     }
