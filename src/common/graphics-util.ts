@@ -37,6 +37,22 @@ export class GraphicsUtil {
         return this.convertToDrawable(ratio, this.ScreenWidth);
     }
 
+    public static convertToDrawableHeightFromRange<T extends ICountable>(start: T, end: T, value: T): number {
+        let diff = +end - +start;
+        let diffOfValue = +value - +start;
+        let ratio = diffOfValue / diff;
+
+        return this.convertToDrawableHeight(ratio);
+    }
+
+    public static convertToDrawableWidthFromRange<T extends ICountable>(start: T, end: T, value: T): number {
+        let diff = +end - +start;
+        let diffOfValue = +value - +start;
+        let ratio = diffOfValue / diff;
+
+        return this.convertToDrawableWidth(ratio);
+    }
+
     private static convertToDrawable(ratio: number, dimension: number): number {
         let value = ratio * dimension;
         let ceiled = Math.ceil(value);

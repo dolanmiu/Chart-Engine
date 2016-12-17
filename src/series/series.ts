@@ -1,18 +1,22 @@
 import * as PIXI from "pixi.js";
 
+interface Reso {
+    y: number;
+    x: number;
 }
 
-export interface ICountable {
-    valueOf(): number;
+export interface ISeries<T extends ICountable, V extends ICountable> {
+    Resolution: PIXI.Point;
+    draw(startX: T, endX: T, startY: V, endY: V): void;
 }
 
-export abstract class Series<T extends ICountable> extends PIXI.Graphics implements ISeries<T> {
+export abstract class Series<T extends ICountable, V extends ICountable> extends PIXI.Graphics implements ISeries<T, V> {
 
-    protected resolution: number;
+    protected resolution: PIXI.Point;
 
     constructor() {
         super();
-        this.resolution = 1000 * 60;
+        this.resolution = new PIXI.Point(1000 * 60, 1);
     }
 
     private findMidPointOfSubArray(array: Array<T>, startIndex: number, endIndex: number, inputValue: T): T {
@@ -36,9 +40,9 @@ export abstract class Series<T extends ICountable> extends PIXI.Graphics impleme
         return this.findMidPointOfSubArray(array, 0, array.length - 1, inputValue);
     }
 
-    public abstract draw(startValue: T, endValue: T): void;
+    public abstract draw(startX: T, endX: T, startY: V, endY: V): void;
 
-    set Resolution(value: number) {
+    set Resolution(value: PIXI.Point) {
         if (!value) {
             return;
         }

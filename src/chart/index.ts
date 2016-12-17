@@ -62,7 +62,7 @@ export class Chart extends PIXI.Container {
         this.yAxis.setPoints(numbers, startNumber, endNumber);
 
         for (let series of this.Series) {
-            series.draw(startDate, endDate);
+            series.draw(startDate, endDate, startNumber, endNumber);
         }
 
         this.grid.setPoints(points, numbers);
@@ -79,12 +79,12 @@ export class Chart extends PIXI.Container {
         this.renderer.render(this);
     }
 
-    public addSeries(series: Series<Date>): void {
+    public addSeries(series: Series<Date, number>): void {
         this.addChild(series);
     }
 
-    get Series(): Array<Series<Date>> {
-        let array = new Array<Series<Date>>();
+    get Series(): Array<Series<Date, number>> {
+        let array = new Array<Series<Date, number>>();
         for (let child of this.children) {
             if (child instanceof Series) {
                 array.push(child);

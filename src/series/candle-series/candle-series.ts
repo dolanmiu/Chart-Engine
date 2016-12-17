@@ -1,5 +1,6 @@
 import { Series } from "../series";
 import { DateRangeTransformer } from "../../chart/transformers/date-range-transformer";
+import { FloatTransformer } from "../../chart/transformers/float-transformer";
 import { AxisPoint } from "../../chart/axis";
 import { GraphicsUtil } from "../../common/graphics-util";
 
@@ -11,14 +12,16 @@ export interface CandleData {
     date?: Date;
 }
 
-export class CandleSeries extends Series<Date> {
+export class CandleSeries extends Series<Date, number> {
 
-    private rangeTransformer: DateRangeTransformer;
+    private dateRangeTransformer: DateRangeTransformer;
+    private floatTransformer: FloatTransformer;
     private nodes: Array<CandleData>;
 
     constructor(params: Object = {}) {
         super();
-        this.rangeTransformer = new DateRangeTransformer();
+        this.dateRangeTransformer = new DateRangeTransformer();
+        this.floatTransformer = new FloatTransformer();
         this.nodes = new Array<CandleData>();
     }
 
@@ -69,22 +72,24 @@ export class CandleSeries extends Series<Date> {
         };
     }
 
-    private drawBar(bar: AxisPoint<CandleData>): void {
+    private drawBar(bar: AxisPoint<CandleData>, startValue: number, endValue: number): void {
         if (isNaN(bar.Value.close) || isNaN(bar.Value.open)) {
             return;
         }
 
         let height = Math.abs(bar.Value.close - bar.Value.open);
         let xPos = GraphicsUtil.convertToDrawableWidth(bar.PosRatio);
+        let yPosOpen = GraphicsUtil.convertToDrawableHeightFromRange(startValue, endValue, bar.Value.open);
 
-        this.drawRect(xPos, bar.Value.open, 10, height);
+        this.drawRect(xPos, yPosOpen, 10, height);
         console.log(bar);
     }
 
-    public draw(startDate: Date, endDate: Date): void {
-        let axisPoints = this.rangeTransformer.transform(startDate, endDate, this.resolution);
+    public draw(startDate: Date, endDate: Date, startValue: number, endValue: number): void {
+        let axisPoints = this.dateRangeTransformer.transform(startDate, endDate, this.resolution.x);
+        let xAxisPoints = this.floatTransformer.transform(startValue, endValue, this.resolution.y);
 
-        let data = this.createCandleCollection(axisPoints, this.resolution);
+        let data = this.createCandleCollection(axisPoints, this.resolution.x);
 
         let bars = new Array<AxisPoint<CandleData>>();
 
@@ -96,7 +101,7 @@ export class CandleSeries extends Series<Date> {
         this.lineStyle(1, 0x0000FF, 1);
 
         for (let bar of bars) {
-            this.drawBar(bar);
+            this.drawBar(bar, startValue, endValue);
         }
     }
 
