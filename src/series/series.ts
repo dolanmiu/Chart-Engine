@@ -1,8 +1,5 @@
 import * as PIXI from "pixi.js";
 
-export interface ISeries<T extends ICountable> {
-    Resolution: number;
-    draw(startValue: T, endValue: T): void;
 }
 
 export interface ICountable {
