@@ -9,7 +9,7 @@ export interface CandleData {
     close: number;
     high: number;
     low: number;
-    date?: Date;
+    date: Date;
 }
 
 export class CandleSeries extends Series<Date, number> {
@@ -52,6 +52,7 @@ export class CandleSeries extends Series<Date, number> {
         let totalHigh = 0;
         let totalLow = 0;
         let totalPos = 0;
+        let totalDate = 0;
 
         for (let datum of data) {
             totalOpen += datum.Value.open;
@@ -59,6 +60,7 @@ export class CandleSeries extends Series<Date, number> {
             totalHigh += datum.Value.high;
             totalLow += datum.Value.low;
             totalPos += datum.PosRatio;
+            totalDate += datum.Value.date.getTime();
         }
 
         return {
@@ -66,20 +68,22 @@ export class CandleSeries extends Series<Date, number> {
                 open: totalOpen / data.length,
                 close: totalClose / data.length,
                 high: totalHigh / data.length,
-                low: totalLow / data.length
+                low: totalLow / data.length,
+                date: new Date(totalDate / data.length)
             },
             PosRatio: totalPos / data.length
         };
     }
 
-    private drawBar(bar: AxisPoint<CandleData>, startValue: number, endValue: number): void {
+    private drawBar(bar: AxisPoint<CandleData>, startDate: Date, endDate: Date, startValue: number, endValue: number): void {
         if (isNaN(bar.Value.close) || isNaN(bar.Value.open)) {
             return;
         }
 
         let height = Math.abs(bar.Value.close - bar.Value.open);
-        let xPos = GraphicsUtil.convertToDrawableWidth(bar.PosRatio);
+        //let xPos = GraphicsUtil.convertToDrawableWidth(bar.PosRatio);
         let yPosOpen = GraphicsUtil.convertToDrawableHeightFromRange(startValue, endValue, bar.Value.open);
+        let xPos = GraphicsUtil.convertToDrawableWidthFromRange(startDate, endDate, bar.Value.date);
 
         this.drawRect(xPos, yPosOpen, 10, height);
         console.log(bar);
@@ -101,7 +105,7 @@ export class CandleSeries extends Series<Date, number> {
         this.lineStyle(1, 0x0000FF, 1);
 
         for (let bar of bars) {
-            this.drawBar(bar, startValue, endValue);
+            this.drawBar(bar, startDate, endDate, startValue, endValue);
         }
     }
 
