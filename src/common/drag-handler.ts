@@ -16,14 +16,14 @@ export class DragHandler {
 
     public enable(tick: (x: number, y: number) => void): void {
         this.renderer.plugins.interaction
-            .on("mousedown", onDragStart)
             .on("touchstart", onDragStart)
-            .on("mouseup", onDragEnd)
-            .on("mouseupoutside", onDragEnd)
+            .on("touchmove", onDragMove)
             .on("touchend", onDragEnd)
-            .on("touchendoutside", onDragEnd)
             .on("mousemove", onDragMove)
-            .on("touchmove", onDragMove);
+            .on("touchendoutside", onDragEnd)
+            .on("mousedown", onDragStart)
+            .on("mouseup", onDragEnd)
+            .on("mouseupoutside", onDragEnd);
 
         let self = this;
 
