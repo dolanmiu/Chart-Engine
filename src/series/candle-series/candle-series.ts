@@ -76,12 +76,32 @@ export class CandleSeries extends Series<Date, number> {
         if (isNaN(bar.Value.close) || isNaN(bar.Value.open)) {
             return;
         }
+        this.lineStyle(1, 0x000000, 1);
+        this.beginFill(0xFFFF00);
 
         let height = Math.abs(bar.Value.close - bar.Value.open);
         let yPosOpen = GraphicsUtil.convertToDrawableHeightFromRange(startValue, endValue, bar.Value.open);
-        let xPos = GraphicsUtil.convertToDrawableWidth(bar.PosRatio);
+        let yPosClose = GraphicsUtil.convertToDrawableHeightFromRange(startValue, endValue, bar.Value.close);
+        let yPosHigh = GraphicsUtil.convertToDrawableHeightFromRange(startValue, endValue, bar.Value.high);
+        let yPosLow = GraphicsUtil.convertToDrawableHeightFromRange(startValue, endValue, bar.Value.low);
 
-        this.drawRect(xPos, yPosOpen, 10, height);
+        let xPos = GraphicsUtil.convertToDrawableWidth(bar.PosRatio);
+        let candleWidth = 10;
+
+        // Draw body of candle
+        this.drawRect(xPos - candleWidth / 2, yPosOpen, candleWidth, height);
+
+        // Draw the wick ends
+        this.moveTo(xPos - candleWidth / 2, yPosHigh);
+        this.lineTo(xPos + candleWidth, yPosHigh);
+        this.moveTo(xPos - candleWidth / 2, yPosLow);
+        this.lineTo(xPos + candleWidth, yPosLow);
+
+        // Draw the wicks
+        this.moveTo(xPos, yPosOpen);
+        this.lineTo(xPos, yPosHigh);
+        this.moveTo(xPos, yPosClose);
+        this.lineTo(xPos, yPosLow);
         console.log(bar);
     }
 

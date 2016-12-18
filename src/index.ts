@@ -14,9 +14,9 @@ document.body.appendChild(chart.Renderer.view);
 let series = new CandleSeries();
 series.Nodes.push({
     open: 3,
-    close: 50,
-    low: 3,
-    high: 10,
+    close: 7,
+    low: 3.5,
+    high: 9.5,
     date: new Date()
 });
 chart.addSeries(series);
