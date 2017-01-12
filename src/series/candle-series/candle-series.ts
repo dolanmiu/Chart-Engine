@@ -16,10 +16,20 @@ export class CandleSeries extends Series<Date, number> {
     private dateRangeTransformer: DateRangeTransformer;
     private nodes: Array<CandleData>;
 
-    constructor(params: Object = {}) {
+    constructor(data: Array<CandleData> = []) {
         super();
+
         this.dateRangeTransformer = new DateRangeTransformer();
         this.nodes = new Array<CandleData>();
+
+        // Delete these date hacks
+        let currentDate = new Date();
+        for (let datum of data) {
+            datum.date = new Date(currentDate.getTime() - 1 * 100);
+            datum.close *= 10;
+            currentDate = datum.date;
+            this.Nodes.push(datum);
+        }
     }
 
     private createCandleCollection(axisPoints: Array<AxisPoint<Date>>, resolution: number): Array<Array<AxisPoint<CandleData>>> {
