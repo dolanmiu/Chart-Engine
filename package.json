@@ -28,7 +28,7 @@
   "homepage": "https://github.com/dolanmiu/Chart-Engine#readme",
   "dependencies": {
     "inversify": "^3.0.0-rc.2",
-    "pixi.js": "^4.1.1",
+    "pixi.js": "^4.3.2",
     "reflect-metadata": "^0.1.8"
   },
   "devDependencies": {
