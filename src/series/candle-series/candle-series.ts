@@ -32,7 +32,7 @@ export class CandleSeries extends Series<Date, number> {
         }
     }
 
-    private createCandleCollection(axisPoints: Array<AxisPoint<Date>>, resolution: number): Array<Array<AxisPoint<CandleData>>> {
+    private createCandleCollection(axisPoints: Array<AxisPoint<Date>>): Array<Array<AxisPoint<CandleData>>> {
         let candleDataPairs = new Array<Array<AxisPoint<CandleData>>>();
 
         axisPoints.forEach(() => {
@@ -112,19 +112,23 @@ export class CandleSeries extends Series<Date, number> {
         this.lineTo(xPos, yPosHigh);
         this.moveTo(xPos, yPosClose);
         this.lineTo(xPos, yPosLow);
-        console.log(bar);
+        // console.log(bar);
     }
 
     public draw(startDate: Date, endDate: Date, startValue: number, endValue: number): void {
+        super.draw(startDate, endDate, startValue, endValue);
         let axisPoints = this.dateRangeTransformer.transform(startDate, endDate, this.resolution.x);
 
-        let data = this.createCandleCollection(axisPoints, this.resolution.x);
+        let data = this.createCandleCollection(axisPoints);
 
         let bars = new Array<AxisPoint<CandleData>>();
 
         for (let datum of data) {
             bars.push(this.averageCandle(datum));
         }
+
+        this.rangeX = this.calculateRangeY(bars);
+        console.log(this.rangeX);
 
         this.clear();
         this.lineStyle(1, 0x0000FF, 1);
@@ -136,5 +140,24 @@ export class CandleSeries extends Series<Date, number> {
 
     get Nodes(): Array<CandleData> {
         return this.nodes;
+    }
+
+    private calculateRangeY(candleData: Array<AxisPoint<CandleData>>): { start: number, end: number } {
+        let start: number = Number.MAX_VALUE;
+        let end: number = Number.MAX_VALUE;
+
+        for (let candle of candleData) {
+            if (candle.Value.low < start) {
+                start = candle.Value.low;
+            }
+
+            if (candle.Value.high < end) {
+                end = candle.Value.high;
+            }
+        }
+
+        return {
+            start, end
+        };
     }
 }

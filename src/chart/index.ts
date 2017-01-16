@@ -34,7 +34,7 @@ export class Chart extends PIXI.Container {
 
         let endDate = new Date(new Date().getTime() + 10 * 60 * 1000);
         let startDate = new Date();
-        this.updatePoints(startDate, endDate, 0, 20);
+        this.updatePoints(startDate, endDate, 6, 12);
 
         this.addChild(this.xAxis);
         this.addChild(this.yAxis);
@@ -81,6 +81,9 @@ export class Chart extends PIXI.Container {
 
     public addSeries(series: Series<Date, number>): void {
         this.addChild(series);
+        let endDate = new Date(new Date().getTime() + 10 * 60 * 1000);
+        let startDate = new Date();
+        this.updatePoints(startDate, endDate, series.rangeX.start, series.rangeX.end);
     }
 
     get Series(): Array<Series<Date, number>> {
